@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego: Adivina el Instrumento | Musidactica</title>
+    <!-- Fuentes y estilos globales -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/css/variables.css">
+    <link rel="stylesheet" href="/src/css/global.css">
+    <!-- Estilos específicos del juego -->
+    <link rel="stylesheet" href="./game.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- Cabecera del Juego -->
+        <header class="game-header">
+            <a href="/src/games/index.html" class="btn-back">⬅ Volver a Inicio</a>
+            <button id="mute-btn" class="mute-btn" title="Activar/Desactivar Sonido UI">🔊</button>
+            <div class="game-stats">
+                <span class="round-badge">Ronda <span id="currentRound">1</span>/10</span>
+                <span class="score-badge">Puntos: <span id="currentScore">0</span></span>
+            </div>
+        </header>
+
+        <!-- Área Principal de Juego -->
+        <main class="game-area">
+            <!-- Círculo Central (Signo de Pregunta o Imagen) -->
+            <div class="mystery-box" id="mysteryBox">
+                <div class="question-mark" id="mysteryContent">❓</div>
+            </div>
+
+            <!-- Controles de Audio Simulados -->
+            <div class="audio-controls">
+                <button id="btnPlay" class="btn btn-primary btn-play">▶ Reproducir Sonido</button>
+                <div id="audioToast" class="audio-toast hidden">🎵 Reproduciendo sonido...</div>
+            </div>
+
+            <!-- Opciones -->
+            <div class="options-grid" id="optionsGrid">
+                <button class="option-btn" disabled>Opción 1</button>
+                <button class="option-btn" disabled>Opción 2</button>
+                <button class="option-btn" disabled>Opción 3</button>
+                <button class="option-btn" disabled>Opción 4</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de Fin de Juego -->
+    <div class="modal hidden" id="endGameModal">
+        <div class="modal-content">
+            <h2>¡Partida Terminada!</h2>
+            <div class="final-score">
+                Hiciste <span id="finalScore">0</span> de 10 puntos
+            </div>
+            <p id="finalMessage" class="final-message">¡Sigue practicando!</p>
+            <button id="btnRestart" class="btn btn-primary">Volver a Jugar</button>
+            <a href="/" class="btn btn-secondary">Salir al Menú</a>
+        </div>
+    </div>
+
+    <!-- Script del Juego -->
+    <script src="/src/js/audioFX.js"></script>
+    <script type="module" src="./game.js"></script>
+</body>
+</html>

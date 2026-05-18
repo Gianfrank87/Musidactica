@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estudio Virtual | Musidactica</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/css/variables.css">
+    <link rel="stylesheet" href="/src/css/global.css">
+    <link rel="stylesheet" href="style.css">
+    <!-- Tone.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+</head>
+<body class="bg-gray">
+
+<!-- Rotate Overlay — solo visible en portrait mobile -->
+<div id="rotate-overlay" class="rotate-overlay">
+    <div class="rotate-content">
+        <div class="rotate-icon">📱➡️🔄</div>
+        <h2>Girá el teléfono</h2>
+        <p>El Estudio Virtual funciona mejor en horizontal.</p>
+    </div>
+</div>
+
+<!-- Loading Screen -->
+<div id="loading-screen" class="loading-overlay">
+    <div class="loader-content">
+        <div class="spinner"></div>
+        <h2>Cargando Piano...</h2>
+        <p>Descargando samples del Salamander Grand Piano</p>
+        <p class="loading-note">La batería ya está lista ⚡</p>
+    </div>
+</div>
+
+<div class="studio-wrapper">
+    <!-- Header -->
+    <header class="studio-header">
+        <a href="/src/games/index.html" class="back-btn">← Volver al Hub</a>
+        <h1 class="studio-title">🎵 Estudio Virtual</h1>
+        <div class="instrument-toggle">
+            <button id="btn-piano" class="toggle-btn active">🎹 Piano</button>
+            <button id="btn-drums" class="toggle-btn">🥁 Octapad</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="studio-main">
+
+        <!-- Piano Container -->
+        <div id="piano-container" class="instrument-container active">
+            <div class="piano-wrapper">
+                <div class="piano-controls">
+                    <span class="control-label">🎹 Salamander Grand Piano</span>
+                    <span class="keyboard-hint">Teclado: A S D F G H J / W E T Y U</span>
+                </div>
+                <div id="piano-keys" class="piano-keys">
+                    <!-- Generado por JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Drums Container (Octapad) -->
+        <div id="drums-container" class="instrument-container hidden">
+            <div class="drums-wrapper">
+                <div class="drums-controls">
+                    <span class="control-label">🥁 Batería Acústica</span>
+                    <span class="keyboard-hint">Q W E R (arriba) / A S D F (abajo)</span>
+                </div>
+                <div class="octapad">
+                    <!-- Top row: platillos y toms altos -->
+                    <button class="pad-btn pad-crash" data-drum="crash"   data-key="q">
+                        <span class="pad-name">Crash</span>
+                        <span class="pad-key">Q</span>
+                    </button>
+                    <button class="pad-btn pad-ride" data-drum="ride"    data-key="w">
+                        <span class="pad-name">Ride</span>
+                        <span class="pad-key">W</span>
+                    </button>
+                    <button class="pad-btn pad-tom1" data-drum="tomHigh" data-key="e">
+                        <span class="pad-name">Tom Alto</span>
+                        <span class="pad-key">E</span>
+                    </button>
+                    <button class="pad-btn pad-hihat-open" data-drum="hihatOpen" data-key="r">
+                        <span class="pad-name">Hi-Hat Abierto</span>
+                        <span class="pad-key">R</span>
+                    </button>
+                    <!-- Bottom row: graves y ritmo -->
+                    <button class="pad-btn pad-tom2" data-drum="tomMid"  data-key="a">
+                        <span class="pad-name">Tom Medio</span>
+                        <span class="pad-key">A</span>
+                    </button>
+                    <button class="pad-btn pad-snare" data-drum="snare"   data-key="s">
+                        <span class="pad-name">Caja (Snare)</span>
+                        <span class="pad-key">S</span>
+                    </button>
+                    <button class="pad-btn pad-hihat" data-drum="hihat"   data-key="d">
+                        <span class="pad-name">Hi-Hat</span>
+                        <span class="pad-key">D</span>
+                    </button>
+                    <button class="pad-btn pad-kick" data-drum="kick"    data-key="f">
+                        <span class="pad-name">Bombo</span>
+                        <span class="pad-key">F</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

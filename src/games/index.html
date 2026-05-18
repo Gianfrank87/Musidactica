@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juegos | Musidactica</title>
+    <!-- Fuentes y estilos globales -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/css/variables.css">
+    <link rel="stylesheet" href="/src/css/global.css">
+</head>
+<body class="bg-gray">
+    <header class="header">
+        <div class="logo">🎵 Musidactica</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/src/games/index.html" class="active">Juegos</a></li>
+                <li><a href="/#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="games-hub">
+        <div class="hub-header">
+            <h1>Panel de Juegos</h1>
+            <p>Elige una actividad para comenzar. Filtra por edad o dificultad.</p>
+            
+            <!-- Filtros (Visuales por ahora) -->
+            <div class="hub-filters">
+                <button class="filter-btn active">Todos</button>
+                <button class="filter-btn">Teoría</button>
+                <button class="filter-btn">Ritmo</button>
+                <button class="filter-btn">Audioperceptiva</button>
+            </div>
+        </div>
+
+        <div class="games-grid">
+            <!-- Juego 1: El que acabamos de hacer -->
+            <a href="/src/games/instrumentos/index.html" class="game-card available">
+                <div class="game-card-img bg-purple">
+                    <span class="game-emoji">🎧</span>
+                </div>
+                <div class="game-card-content">
+                    <h3>Reconocimiento Sonoro</h3>
+                    <p>Adivina el instrumento que está sonando. ¡Entrena tu oído!</p>
+                    <div class="game-tags">
+                        <span class="tag tag-level">Nivel: Básico</span>
+                        <span class="tag tag-age">8-15 años</span>
+                    </div>
+                </div>
+                <div class="game-card-footer">
+                    <span class="play-text">Jugar Ahora ➔</span>
+                </div>
+            </a>
+
+            <!-- Juego 2: Ritmograma -->
+            <a href="/src/games/ritmo/index.html" class="game-card available">
+                <div class="game-card-img bg-blue">
+                    <span class="game-emoji">🥁</span>
+                </div>
+                <div class="game-card-content">
+                    <h3>Ritmograma Interactivo</h3>
+                    <p>Sigue el ritmo en pantalla tocando F y H. ¡No pierdas el pulso!</p>
+                    <div class="game-tags">
+                        <span class="tag tag-level">Nivel: Medio</span>
+                        <span class="tag tag-category">Ritmo</span>
+                    </div>
+                </div>
+                <div class="game-card-footer">
+                    <span class="play-text">Jugar Ahora ➔</span>
+                </div>
+            </a>
+
+            <!-- Juego 3: Dictado Melódico -->
+            <a href="/src/games/melodia/index.html" class="game-card available">
+                <div class="game-card-img bg-orange">
+                    <span class="game-emoji">🎼</span>
+                </div>
+                <div class="game-card-content">
+                    <h3>Dictado Melódico</h3>
+                    <p>Escucha la melodía y acomoda las notas en el pentagrama.</p>
+                    <div class="game-tags">
+                        <span class="tag tag-level">Nivel: Avanzado</span>
+                        <span class="tag tag-age">+12 años</span>
+                    </div>
+                </div>
+                <div class="game-card-footer">
+                    <span class="play-text">Jugar Ahora ➔</span>
+                </div>
+            </a>
+
+            <!-- Juego 4: Placeholder -->
+            <a href="/src/games/trivia/index.html" class="game-card available">
+                <div class="game-card-img bg-green">
+                    <span class="game-emoji">🏆</span>
+                </div>
+                <div class="game-card-content">
+                    <h3>Trivia Musical</h3>
+                    <p>Preguntas sobre historia de la música y teoría general.</p>
+                    <div class="game-tags">
+                        <span class="tag tag-level">Todos</span>
+                        <span class="tag tag-category">Teoría</span>
+                    </div>
+                </div>
+                <div class="game-card-footer">
+                    <span class="play-text">Jugar Ahora ➔</span>
+                </div>
+            </a>
+
+            <!-- Juego 5: Estudio Virtual -->
+            <a href="/src/games/virtuales/index.html" class="game-card available">
+                <div class="game-card-img bg-purple" style="background-color: #fce7f3;">
+                    <span class="game-emoji">🎹</span>
+                </div>
+                <div class="game-card-content">
+                    <h3>Estudio Virtual</h3>
+                    <p>Toca instrumentos virtuales con sonido hiperrealista.</p>
+                    <div class="game-tags">
+                        <span class="tag tag-level">Libre</span>
+                        <span class="tag tag-category">Práctica</span>
+                    </div>
+                </div>
+                <div class="game-card-footer">
+                    <span class="play-text">Entrar al Estudio ➔</span>
+                </div>
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Musidactica.</p>
+    </footer>
+</body>
+</html>

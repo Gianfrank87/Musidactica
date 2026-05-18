@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musidactica | Aprende y Juega</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/css/variables.css">
+    <link rel="stylesheet" href="/src/css/global.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">🎵 Musidactica</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#hero">Inicio</a></li>
+                <li><a href="/src/games/index.html">Juegos</a></li>
+                <li><a href="#about-project">Proyecto</a></li>
+                <li><a href="#about-me">Sobre Mí</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="hero">
+            <div class="hero-content">
+                <h1>La música se aprende <span class="highlight">jugando</span></h1>
+                <p>Una plataforma de didáctica musical diseñada para llevar recursos interactivos, frescos y divertidos directamente a las netbooks del aula.</p>
+                <div class="hero-buttons">
+                    <a href="/src/games/index.html" class="btn btn-primary">🎮 Explorar Juegos</a>
+                    <a href="#about-project" class="btn btn-secondary">Leer Más</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="music-notes-animation">🎶 🎹 🎸</div>
+            </div>
+        </section>
+
+        <!-- Sobre Musidactica -->
+        <section id="about-project" class="about">
+            <div class="section-header">
+                <h2>¿Qué es Musidactica?</h2>
+                <p>Transformando el aula tradicional en una experiencia interactiva.</p>
+            </div>
+            <div class="features">
+                <div class="card">
+                    <div class="card-icon">💻</div>
+                    <h3>Netbooks en el Aula</h3>
+                    <p>Juegos y recursos optimizados para funcionar perfectamente en las computadoras escolares, permitiendo jugar en red o individualmente.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🧠</div>
+                    <h3>Didáctica Moderna</h3>
+                    <p>Diseños curriculares y actividades estructuradas por niveles (de 8 a 20 años) para aprender teoría, ritmo y audioperceptiva sin aburrirse.</p>
+                </div>
+                <div class="card" id="docentes">
+                    <div class="card-icon">👩‍🏫</div>
+                    <h3>Área Docentes (Próximamente)</h3>
+                    <p>Membresías exclusivas para adquirir material didáctico "Pro", planificaciones y herramientas de seguimiento de alumnos.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sobre Mí -->
+        <section id="about-me" class="about-me-section">
+            <div class="about-me-container">
+                <div class="about-me-image-wrapper">
+                    <!-- Usamos tu nueva foto de perfil -->
+                    <img src="/public/images/gian perfil.png" alt="Gian - Creador de Musidactica" class="profile-img">
+                    <div class="image-backdrop"></div>
+                </div>
+                <div class="about-me-content">
+                    <h2>¡Hola! Soy Gian 👋</h2>
+                    <h3>Docente de Música & Desarrollador</h3>
+                    <p>
+                        Creé <strong>Musidactica</strong> porque creo firmemente que la educación musical necesita una actualización. 
+                        En mis años en el aula, noté que los chicos conectan muchísimo más cuando la teoría y la práctica se presentan como un desafío interactivo.
+                    </p>
+                    <p>
+                        Mi objetivo es brindarte herramientas viables, divertidas y modernas que transformen tus clases y exploten el potencial de la tecnología en la escuela.
+                    </p>
+                    <a href="#contacto" class="btn btn-secondary mt-4">Hablemos</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contacto -->
+        <section id="contacto" class="contact">
+            <h2>Ponte en Contacto</h2>
+            <p>¿Interesado en los recursos o quieres dejar una sugerencia? ¡Escríbeme!</p>
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label for="name">Nombre</label>
+                    <input type="text" id="name" required placeholder="Tu nombre">
+                </div>
+                <div class="form-group">
+                    <label for="email">Correo Electrónico</label>
+                    <input type="email" id="email" required placeholder="tu@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="message">Mensaje</label>
+                    <textarea id="message" rows="4" required placeholder="¿En qué te puedo ayudar?"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary w-full">Enviar Mensaje</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; <span id="year"></span> Musidactica. Desarrollado con 🎵 y código por Gian.</p>
+    </footer>
+
+    <script type="module" src="/src/js/main.js"></script>
+</body>
+</html>
