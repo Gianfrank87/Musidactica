@@ -1,0 +1,8 @@
+# robots.txt — Musidactica
+# Instrucciones para los robots de los buscadores (Google, Bing, etc.)
+
+User-agent: *
+Allow: /
+
+# Indicar a Google dónde está el sitemap
+Sitemap: https://www.musidactica.com.ar/sitemap.xml
