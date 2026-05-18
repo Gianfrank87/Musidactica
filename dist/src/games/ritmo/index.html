@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/public/images/favicon.png">
+    <link rel="apple-touch-icon" href="/public/images/favicon.png">
+    <title>Ritmograma Interactivo | Musidactica</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/css/variables.css">
+    <link rel="stylesheet" href="/src/css/global.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div id="subliminal-overlay" class="subliminal-overlay"></div>
+    
+    <!-- Overlay de Cuenta Atrás -->
+    <div id="countdown-overlay" class="countdown-overlay hidden">
+        <div id="countdown-number">4</div>
+    </div>
+    
+    <div class="game-container">
+        <header class="game-header">
+            <a href="/src/games/index.html" class="btn-back">⬅ Volver</a>
+            <button id="mute-btn" class="mute-btn" title="Activar/Desactivar Sonido UI">🔊</button>
+            <div class="stats">
+                <div class="stat-item">PUNTOS: <span id="score">0</span></div>
+                <div class="stat-item">COMBO: <span id="combo">0</span></div>
+            </div>
+        </header>
+
+        <main class="game-view">
+            <!-- Vista Previa del Compás -->
+            <div class="pattern-display" id="patternDisplay">
+                <span class="pattern-label">RITMO:</span>
+                <div id="patternNotes" class="pattern-notes">---</div>
+            </div>
+
+            <!-- Pista de Ritmo -->
+            <div class="rhythm-track" id="rhythmTrack">
+                <div class="target-zone" id="targetZone"></div>
+                <div class="notes-container" id="notesContainer"></div>
+            </div>
+
+            <div class="feedback-text" id="feedback">¡Presiona START!</div>
+            
+            <div class="controls-info">
+                <div class="key-guide">
+                    <span class="key red">F</span> Negras
+                </div>
+                <div class="key-guide">
+                    <span class="key blue">H</span> Corcheas
+                </div>
+                <div class="key-guide">
+                    <span class="key yellow">J</span> Semicorcheas
+                </div>
+            </div>
+        </main>
+
+        <div class="game-controls">
+            <button id="btnStart" class="btn btn-primary">COMENZAR JUEGO</button>
+        </div>
+    </div>
+
+    <!-- Modal de Resultados -->
+    <div id="resultModal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Sesión Terminada</h2>
+            <p class="final-score">Puntaje Final: <span id="finalScore">0</span></p>
+            <p id="accuracy-text"></p>
+            <button id="btnRestart" class="btn btn-primary">Intentar de Nuevo</button>
+        </div>
+    </div>
+
+    <script src="/src/js/audioFX.js"></script>
+    <script type="module" src="./game.js"></script>
+</body>
+</html>

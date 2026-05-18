@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/public/images/favicon.png">
+    <link rel="apple-touch-icon" href="/public/images/favicon.png">
+    <title>Trivia Musical | Musidactica</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/css/variables.css">
+    <link rel="stylesheet" href="/src/css/global.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray">
+<div class="game-wrapper">
+
+    <!-- Header -->
+    <header class="game-header">
+        <a href="/src/games/index.html" class="back-btn">← Volver</a>
+        <button id="mute-btn" class="mute-btn" title="Activar/Desactivar Sonido UI">🔊</button>
+        <div class="header-center">
+            <span id="level-badge" class="level-badge hidden">Nivel 1</span>
+            <span id="progress-badge" class="progress-badge hidden">Pregunta 1/10</span>
+        </div>
+        <div class="score-display">⭐ <span id="score">0</span></div>
+    </header>
+
+    <!-- PANTALLA INICIO -->
+    <div id="start-screen" class="screen active">
+        <div class="start-icon">🏆</div>
+        <h1>Trivia Musical</h1>
+        <p class="subtitle">Pon a prueba tus conocimientos de teoría e historia musical.</p>
+        
+        <p class="setup-label">Seleccioná un nivel de dificultad:</p>
+        
+        <div class="level-grid">
+            <button class="level-btn lvl-1" data-level="1">
+                <span class="lvl-num">1</span>
+                <span class="lvl-title">Principiante</span>
+                <small>Conceptos muy básicos</small>
+            </button>
+            <button class="level-btn lvl-2" data-level="2">
+                <span class="lvl-num">2</span>
+                <span class="lvl-title">Básico</span>
+                <small>Teoría e historia general</small>
+            </button>
+            <button class="level-btn lvl-3" data-level="3">
+                <span class="lvl-num">3</span>
+                <span class="lvl-title">Intermedio</span>
+                <small>Armaduras, intervalos, épocas</small>
+            </button>
+            <button class="level-btn lvl-4" data-level="4">
+                <span class="lvl-num">4</span>
+                <span class="lvl-title">Avanzado</span>
+                <small>Acordes complejos, organología</small>
+            </button>
+            <button class="level-btn lvl-5" data-level="5">
+                <span class="lvl-num">5</span>
+                <span class="lvl-title">Profesor</span>
+                <small>Desafío extremo. Suerte.</small>
+            </button>
+        </div>
+        
+        <button id="start-btn" class="btn btn-primary btn-start" disabled>¡Comenzar!</button>
+    </div>
+
+    <!-- PANTALLA JUEGO -->
+    <div id="game-screen" class="screen">
+        <div class="timer-container">
+            <svg class="timer-svg" viewBox="0 0 100 100">
+                <circle class="timer-bg" cx="50" cy="50" r="45"></circle>
+                <circle class="timer-progress" id="timer-ring" cx="50" cy="50" r="45"></circle>
+            </svg>
+            <div class="timer-text" id="timer-text">15</div>
+        </div>
+
+        <h2 id="question-text" class="question-text">¿Pregunta de prueba?</h2>
+
+        <div class="options-grid" id="options-container">
+            <!-- Botones generados por JS -->
+        </div>
+    </div>
+
+    <!-- PANTALLA RESULTADOS -->
+    <div id="result-screen" class="screen">
+        <div class="result-icon" id="result-icon">🎉</div>
+        <h1 id="result-title">¡Juego Terminado!</h1>
+        <p class="subtitle" id="result-subtitle">Has completado la ronda.</p>
+        
+        <div class="stats-card">
+            <div class="stat-row">
+                <span>Respuestas correctas</span>
+                <strong id="correct-count">0/10</strong>
+            </div>
+            <div class="stat-row">
+                <span>Puntos totales</span>
+                <strong id="final-score" class="text-primary">0</strong>
+            </div>
+            <div class="stat-row">
+                <span>Precisión</span>
+                <strong id="accuracy-pct">0%</strong>
+            </div>
+        </div>
+        
+        <button id="restart-btn" class="btn btn-primary">Volver al inicio</button>
+    </div>
+
+</div>
+
+<script src="/src/js/audioFX.js"></script>
+<script src="questions.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

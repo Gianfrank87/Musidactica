@@ -1,0 +1,472 @@
+/* 🎸 Estilos Premium Arcade para Guitar Hero Rítmico */
+
+body.arcade-body {
+    background-color: #0f172a;
+    background-image: radial-gradient(circle at top left, #1e1b4b 0%, #0f172a 100%);
+    color: #f8fafc;
+    font-family: 'Outfit', sans-serif;
+    margin: 0;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-container {
+    width: 95%;
+    max-width: 1050px;
+    height: 620px;
+    background-color: rgba(15, 23, 42, 0.9);
+    border: 3px solid #3b82f6;
+    box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+}
+
+.game-header {
+    background-color: rgba(30, 41, 59, 0.8);
+    border-bottom: 2px solid #3b82f6;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #60a5fa, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.stats {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.stat-item {
+    background-color: rgba(15, 23, 42, 0.6);
+    padding: 0.5rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 800;
+    border: 1px solid #1e293b;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+}
+
+.neon-text {
+    color: #22c55e;
+    text-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+}
+
+.neon-text-blue {
+    color: #3b82f6;
+    text-shadow: 0 0 10px rgba(59, 130, 246, 0.6);
+}
+
+/* Layout Principal */
+.game-layout {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    overflow: hidden;
+}
+
+/* Columna Izquierda (Video e Instrucciones) */
+.panel-left {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.video-card {
+    background-color: rgba(30, 41, 59, 0.4);
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.video-header {
+    background-color: rgba(30, 41, 59, 0.7);
+    padding: 0.6rem 1rem;
+    font-weight: 800;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #1e293b;
+    color: #94a3b8;
+}
+
+.video-container {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#yt-player {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.instruction-card {
+    background-color: rgba(30, 41, 59, 0.4);
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex: 1;
+}
+
+.instruction-card h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #60a5fa;
+}
+
+.instruction-card p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #94a3b8;
+    line-height: 1.4;
+}
+
+.key-legend-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.legend-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #64748b;
+    gap: 0.25rem;
+}
+
+.key-badge {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 800;
+    font-size: 1rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.d-key { background-color: #22c55e; border: 2px solid #4ade80; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+.f-key { background-color: #ef4444; border: 2px solid #f87171; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+.h-key { background-color: #eab308; border: 2px solid #facc15; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+.j-key { background-color: #3b82f6; border: 2px solid #60a5fa; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+
+.play-action-zone {
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-arcade {
+    background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+    color: white;
+    border: 2px solid #60a5fa;
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(96, 165, 250, 0.4);
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.btn-arcade:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 0 25px rgba(96, 165, 250, 0.6);
+    filter: brightness(1.1);
+}
+
+.btn-arcade:disabled {
+    background: #1e293b;
+    border-color: #334155;
+    color: #475569;
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+/* Columna Derecha (Mástil de Guitar Hero) */
+.panel-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(15, 23, 42, 0.4);
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 1rem;
+    position: relative;
+}
+
+/* 3D Guitar Highway */
+.guitar-highway-wrapper {
+    perspective: 500px;
+    width: 290px;
+    height: 400px;
+    overflow: visible;
+}
+
+.guitar-highway {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #0f172a 0%, #1e293b 100%);
+    transform: rotateX(25deg);
+    transform-origin: bottom center;
+    position: relative;
+    border-left: 4px solid #475569;
+    border-right: 4px solid #475569;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    overflow: hidden;
+}
+
+.lane-divider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: rgba(71, 85, 105, 0.3);
+}
+
+.highway-lane {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 25%;
+}
+
+#lane-D { left: 0%; }
+#lane-F { left: 25%; }
+#lane-H { left: 50%; }
+#lane-J { left: 75%; }
+
+/* Línea de Impacto y Receptores */
+.strum-line {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    height: 48px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 3px dashed rgba(255, 255, 255, 0.15);
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 20;
+    padding: 0 6px;
+}
+
+.receptor {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: transparent;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.08s ease;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+}
+
+.pad-key {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+}
+
+.pad-green { border: 3px solid #16a34a; }
+.pad-red { border: 3px solid #dc2626; }
+.pad-yellow { border: 3px solid #ca8a04; }
+.pad-blue { border: 3px solid #2563eb; }
+
+/* Receptores pulsados */
+.pad-green.active { background-color: rgba(34, 197, 94, 0.4); transform: scale(0.92); box-shadow: 0 0 15px #22c55e; }
+.pad-red.active { background-color: rgba(239, 68, 68, 0.4); transform: scale(0.92); box-shadow: 0 0 15px #ef4444; }
+.pad-yellow.active { background-color: rgba(234, 179, 8, 0.4); transform: scale(0.92); box-shadow: 0 0 15px #eab308; }
+.pad-blue.active { background-color: rgba(59, 130, 246, 0.4); transform: scale(0.92); box-shadow: 0 0 15px #3b82f6; }
+
+/* Notas Cayendo */
+.guitar-note {
+    position: absolute;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    left: calc(50% - 21px); /* Centrado en el carril */
+    transform: translateY(0);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+    z-index: 10;
+}
+
+.note-green {
+    background: radial-gradient(circle at 35% 35%, #86efac 0%, #22c55e 70%, #14532d 100%);
+    border: 2px solid #86efac;
+    box-shadow: 0 0 12px rgba(34, 197, 94, 0.6);
+}
+
+.note-red {
+    background: radial-gradient(circle at 35% 35%, #fca5a5 0%, #ef4444 70%, #7f1d1d 100%);
+    border: 2px solid #fca5a5;
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.6);
+}
+
+.note-yellow {
+    background: radial-gradient(circle at 35% 35%, #fef08a 0%, #eab308 70%, #713f12 100%);
+    border: 2px solid #fef08a;
+    box-shadow: 0 0 12px rgba(234, 179, 8, 0.6);
+}
+
+.note-blue {
+    background: radial-gradient(circle at 35% 35%, #93c5fd 0%, #3b82f6 70%, #1e3a8a 100%);
+    border: 2px solid #93c5fd;
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
+}
+
+/* Efectos de Explosión al golpear nota */
+.note-explosion {
+    animation: burst 0.35s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+    pointer-events: none;
+}
+
+@keyframes burst {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(2); opacity: 0; filter: brightness(1.8) blur(3px); }
+}
+
+/* Texto de Feedback */
+.feedback-text {
+    font-size: 1.3rem;
+    font-weight: 800;
+    height: 1.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+    margin-top: 0.5rem;
+}
+
+/* Cuenta Atrás */
+.countdown-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(15, 23, 42, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    border-radius: 16px;
+    pointer-events: none;
+}
+
+#countdown-number {
+    font-size: 8rem;
+    font-weight: 800;
+    color: white;
+    text-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+    animation: ping-anim 1s infinite ease-out;
+}
+
+@keyframes ping-anim {
+    0% { transform: scale(0.5); opacity: 0; }
+    20% { transform: scale(1.1); opacity: 1; }
+    80% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* Modales */
+.modal {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(15, 23, 42, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+    border-radius: 16px;
+}
+
+.modal-content {
+    background-color: #1e293b;
+    border: 3px solid #a78bfa;
+    box-shadow: 0 0 30px rgba(167, 139, 250, 0.4);
+    padding: 3rem 2rem;
+    border-radius: 12px;
+    text-align: center;
+    width: 85%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.modal-content h2 {
+    margin: 0;
+    color: #a78bfa;
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.final-score {
+    font-size: 1.8rem;
+    font-weight: 800;
+}
+
+.final-message {
+    color: #94a3b8;
+    font-size: 1.05rem;
+}
+
+.btn-arcade-secondary {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    border-color: #475569;
+}
+
+/* Respuestas rápidas */
+.hidden { display: none !important; }
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+    .game-layout {
+        grid-template-columns: 1fr;
+        overflow-y: auto;
+    }
+    
+    .game-container {
+        height: auto;
+        min-height: 100vh;
+        border-radius: 0;
+        border: none;
+    }
+}

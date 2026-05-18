@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/public/images/favicon.png">
+    <link rel="apple-touch-icon" href="/public/images/favicon.png">
+    <title>Guitar Hero Rítmico | Musidactica</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/css/variables.css">
+    <link rel="stylesheet" href="/src/css/global.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body class="arcade-body">
+    <!-- Overlay de Cuenta Atrás -->
+    <div id="countdown-overlay" class="countdown-overlay hidden">
+        <div id="countdown-number">4</div>
+    </div>
+    
+    <div class="game-container">
+        <header class="game-header">
+            <a href="/src/games/index.html" class="btn-back">⬅ Volver al Panel</a>
+            <div class="header-title">🎸 Guitar Hero Rítmico</div>
+            <div class="stats">
+                <div class="stat-item">PUNTOS: <span id="score" class="neon-text">0</span></div>
+                <div class="stat-item">COMBO: <span id="combo" class="neon-text-blue">0</span></div>
+            </div>
+        </header>
+
+        <main class="game-layout">
+            <!-- Columna Izquierda: Video de YouTube e Instrucciones -->
+            <div class="panel-left">
+                <div class="video-card">
+                    <div class="video-header">📺 Video de la Canción</div>
+                    <div class="video-container">
+                        <!-- El reproductor de YouTube se inicializará aquí -->
+                        <div id="yt-player"></div>
+                    </div>
+                </div>
+
+                <div class="instruction-card">
+                    <h3>¿Cómo jugar?</h3>
+                    <p>Las notas bajarán por el mástil de la guitarra. Presioná la tecla correspondiente justo cuando pasen por el círculo de impacto:</p>
+                    <div class="key-legend-grid">
+                        <div class="legend-item"><span class="key-badge d-key">D</span> Verde</div>
+                        <div class="legend-item"><span class="key-badge f-key">F</span> Rojo</div>
+                        <div class="legend-item"><span class="key-badge h-key">H</span> Amarillo</div>
+                        <div class="legend-item"><span class="key-badge j-key">J</span> Azul</div>
+                    </div>
+                    <div class="play-action-zone">
+                        <button id="btnStart" class="btn btn-arcade">CARGAR JUEGO</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna Derecha: Mástil de Guitar Hero (Guitar Highway) -->
+            <div class="panel-right">
+                <div class="guitar-highway-wrapper">
+                    <div class="guitar-highway">
+                        <!-- Líneas divisorias de carriles -->
+                        <div class="lane-divider" style="left: 25%;"></div>
+                        <div class="lane-divider" style="left: 50%;"></div>
+                        <div class="lane-divider" style="left: 75%;"></div>
+
+                        <!-- Carriles (Lanes) -->
+                        <div class="highway-lane" id="lane-D"></div>
+                        <div class="highway-lane" id="lane-F"></div>
+                        <div class="highway-lane" id="lane-H"></div>
+                        <div class="highway-lane" id="lane-J"></div>
+
+                        <!-- Línea de Impacto (Receptores) -->
+                        <div class="strum-line">
+                            <div class="receptor pad-green" id="pad-D">
+                                <span class="pad-key">D</span>
+                            </div>
+                            <div class="receptor pad-red" id="pad-F">
+                                <span class="pad-key">F</span>
+                            </div>
+                            <div class="receptor pad-yellow" id="pad-H">
+                                <span class="pad-key">H</span>
+                            </div>
+                            <div class="receptor pad-blue" id="pad-J">
+                                <span class="pad-key">J</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feedback-text" id="feedback">¡Presioná COMENZAR!</div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de Resultados -->
+    <div id="resultModal" class="modal hidden">
+        <div class="modal-content">
+            <h2>🏆 ¡Sesión de Rock Terminada! 🏆</h2>
+            <p class="final-score">Puntaje Final: <span id="finalScore" class="neon-text">0</span></p>
+            <p id="accuracy-text" class="final-message">¡Eres una estrella de rock! 🌟</p>
+            <button id="btnRestart" class="btn btn-arcade">Tocar de Nuevo</button>
+        </div>
+    </div>
+
+    <!-- Cargar API de YouTube e inicializar -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="/src/js/audioFX.js"></script>
+    <script type="module" src="./game.js"></script>
+</body>
+</html>

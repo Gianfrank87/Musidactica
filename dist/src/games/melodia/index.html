@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/public/images/favicon.png">
+    <link rel="apple-touch-icon" href="/public/images/favicon.png">
+    <title>Dictado Melódico | Musidactica</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/css/variables.css">
+    <link rel="stylesheet" href="/src/css/global.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray">
+<div class="game-wrapper">
+
+    <!-- Game Header -->
+    <header class="game-header">
+        <a href="/src/games/index.html" class="back-btn">← Volver</a>
+        <button id="mute-btn" class="mute-btn" title="Activar/Desactivar Sonido UI">🔊</button>
+        <div class="header-center">
+            <span id="difficulty-label" class="diff-badge"></span>
+            <span id="round-counter" class="round-badge"></span>
+        </div>
+        <div class="score-display">⭐ <span id="score">0</span></div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- START SCREEN                                                        -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <div id="start-screen" class="screen active">
+        <div class="start-icon">🎼</div>
+        <h1>Dictado Melódico</h1>
+        <p class="subtitle">Afina tu oído. Escucha y reconoce melodías al piano.</p>
+
+        <!-- Step 1: Difficulty -->
+        <div class="setup-section">
+            <p class="setup-label">1. Elegí la dificultad</p>
+            <div class="diff-selection">
+                <button class="diff-btn diff-green" data-diff="principiante">
+                    <span class="diff-emoji">🌱</span>
+                    <strong>Principiante</strong>
+                    <small>Sólo dirección melódica</small>
+                </button>
+                <button class="diff-btn diff-orange" data-diff="medio">
+                    <span class="diff-emoji">🎵</span>
+                    <strong>Medio</strong>
+                    <small>Dirección + identificar pentagrama</small>
+                </button>
+                <button class="diff-btn diff-red" data-diff="dificil">
+                    <span class="diff-emoji">🔥</span>
+                    <strong>Difícil</strong>
+                    <small>Todo mezclado + dictado completo</small>
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 2: Round count -->
+        <div id="step-2-rounds" class="setup-section hidden">
+            <p class="setup-label">2. ¿Cuántas rondas querés jugar?</p>
+            <div class="count-selection">
+                <button class="count-btn" data-count="5">5</button>
+                <button class="count-btn" data-count="8">8</button>
+                <button class="count-btn" data-count="10">10</button>
+                <button class="count-btn" data-count="15">15</button>
+            </div>
+        </div>
+
+        <button id="start-game-btn" class="btn btn-primary btn-start hidden" disabled>
+            ¡Empezar! →
+        </button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- DIRECTION ROUND                                                     -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <div id="direction-screen" class="screen">
+        <h2 id="round-title">¿Hacia dónde va la melodía?</h2>
+
+        <div class="qmark-block">
+            <div class="qmark-circle">?</div>
+            <button id="play-direction-btn" class="play-btn">
+                <span class="play-icon">▶</span> Escuchar de nuevo
+            </button>
+        </div>
+
+        <div class="dir-options">
+            <button class="dir-option" data-answer="sube">
+                <span class="dir-arrow">📈</span>
+                <span>Sube</span>
+            </button>
+            <button class="dir-option" data-answer="baja">
+                <span class="dir-arrow">📉</span>
+                <span>Baja</span>
+            </button>
+            <button class="dir-option" data-answer="mixta">
+                <span class="dir-arrow">〰️</span>
+                <span>Mixta (Sube y Baja)</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- STAFF IDENTIFICATION ROUND                                          -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <div id="staff-screen" class="screen">
+        <h2 id="round-title-staff">¿Cuál pentagrama escuchaste?</h2>
+        <button id="play-staff-btn" class="play-btn">
+            <span class="play-icon">▶</span> Escuchar melodía
+        </button>
+        <div id="staff-options" class="staff-options">
+            <!-- Generated by JS -->
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- DICTATION ROUND                                                     -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <div id="dictation-screen" class="screen">
+        <h2>Escribe la melodía que escuchas</h2>
+        <p class="hint-text">
+            Hacé clic en el pentagrama para colocar las
+            <strong><span id="notes-needed">4</span> notas</strong>.
+            (<span id="notes-placed">0</span> colocadas)
+        </p>
+
+        <div class="dictation-controls-top">
+            <button id="play-dictation-btn" class="play-btn">
+                <span class="play-icon">▶</span> Escuchar
+            </button>
+        </div>
+
+        <div class="interactive-staff-wrap">
+            <svg id="interactive-staff" viewBox="0 0 480 150" width="100%" xmlns="http://www.w3.org/2000/svg">
+                <!-- rendered by JS -->
+            </svg>
+        </div>
+
+        <div class="dictation-controls-bottom">
+            <button id="undo-note-btn" class="btn btn-outline">⬅ Borrar última</button>
+            <button id="clear-staff-btn" class="btn btn-secondary">🗑 Limpiar todo</button>
+            <button id="check-dictation-btn" class="btn btn-primary">✓ Comprobar</button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- RESULT SCREEN                                                       -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <div id="result-screen" class="screen">
+        <div class="result-emoji">🏆</div>
+        <h1 id="result-title">¡Excelente Oído!</h1>
+        <div class="result-score-card">
+            <div class="result-score-row">
+                <span>Tu puntuación</span>
+                <strong><span id="final-score-val">0</span> / <span id="max-score-val">0</span></strong>
+            </div>
+            <div class="result-pct-bar">
+                <div id="result-pct-fill" class="result-pct-fill"></div>
+            </div>
+            <div class="result-pct-label"><span id="result-pct">0%</span> correcto</div>
+        </div>
+        <button id="restart-btn" class="btn btn-primary">Volver a jugar</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- FEEDBACK OVERLAY                                                    -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <div id="feedback-overlay" class="feedback-overlay">
+        <div class="feedback-box">
+            <div id="feedback-icon" class="feedback-icon">✅</div>
+            <div id="feedback-msg" class="feedback-msg">¡Correcto!</div>
+        </div>
+    </div>
+
+</div><!-- .game-wrapper -->
+
+<script src="/src/js/audioFX.js"></script>
+<script src="audio.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
