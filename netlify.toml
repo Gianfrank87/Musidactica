@@ -1,3 +1,6 @@
+# netlify.toml — Musidactica
+# Netlify compila con Vite y sirve la carpeta dist/
+
 [build]
-  command = "echo 'Desplegando sitio estático'"
-  publish = "."
+  command = "npm run build"
+  publish = "dist"
