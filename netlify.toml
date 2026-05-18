@@ -1,6 +1,3 @@
-# Configuración automática para Netlify
-# Al usar este archivo, Netlify ignorará la configuración de la web y servirá tus archivos tal cual están en GitHub.
-
 [build]
-  command = ""
+  command = "echo 'Desplegando sitio estático'"
   publish = "."
