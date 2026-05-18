@@ -3,6 +3,7 @@ import { defineConfig } from 'vite'
 import fs from 'fs'
 
 export default defineConfig({
+  base: './',
   build: {
     outDir: 'dist',
     rollupOptions: {
@@ -28,6 +29,15 @@ export default defineConfig({
         // estén disponibles exactamente en la misma ruta que en desarrollo local.
         fs.cpSync(srcPath, destPath, { recursive: true })
         console.log('⚡ ¡Carpeta src copiada con éxito a dist/src para compatibilidad 100%!')
+
+        // También copiamos la carpeta public dentro de dist/public
+        // Para que las referencias relativas de favicon e imágenes funcionen sin importar el método de hosting.
+        const publicPath = resolve(__dirname, 'public')
+        const publicDestPath = resolve(__dirname, 'dist/public')
+        if (fs.existsSync(publicPath)) {
+          fs.cpSync(publicPath, publicDestPath, { recursive: true })
+          console.log('⚡ ¡Carpeta public copiada con éxito a dist/public!')
+        }
       }
     }
   ]

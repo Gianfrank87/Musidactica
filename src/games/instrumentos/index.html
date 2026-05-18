@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="/public/images/favicon.png">
-    <link rel="apple-touch-icon" href="/public/images/favicon.png">
+    <link rel="icon" type="image/png" href="../../../public/images/favicon.png">
+    <link rel="apple-touch-icon" href="../../../public/images/favicon.png">
     <title>Juego: Adivina el Instrumento | Musidactica</title>
     <!-- Fuentes y estilos globales -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/src/css/variables.css">
-    <link rel="stylesheet" href="/src/css/global.css">
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/global.css">
     <!-- Estilos específicos del juego -->
     <link rel="stylesheet" href="./game.css">
 </head>
@@ -19,7 +19,7 @@
     <div class="game-container">
         <!-- Cabecera del Juego -->
         <header class="game-header">
-            <a href="/src/games/index.html" class="btn-back">⬅ Volver a Inicio</a>
+            <a href="../index.html" class="btn-back">⬅ Volver a Inicio</a>
             <button id="mute-btn" class="mute-btn" title="Activar/Desactivar Sonido UI">🔊</button>
             <div class="game-stats">
                 <span class="round-badge">Ronda <span id="currentRound">1</span>/10</span>
@@ -70,12 +70,12 @@
             </div>
             <p id="finalMessage" class="final-message">¡Sigue practicando!</p>
             <button id="btnRestart" class="btn btn-primary">Volver a Jugar</button>
-            <a href="/" class="btn btn-secondary">Salir al Menú</a>
+            <a href="../../../index.html" class="btn btn-secondary">Salir al Menú</a>
         </div>
     </div>
 
     <!-- Script del Juego -->
-    <script src="/src/js/audioFX.js"></script>
+    <script src="../../js/audioFX.js"></script>
     <script type="module" src="./game.js"></script>
 </body>
 </html>
