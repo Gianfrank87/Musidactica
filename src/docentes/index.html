@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../../public/images/favicon.png">
+    <link rel="apple-touch-icon" href="../../public/images/favicon.png">
+    <title>Área Docentes — Recursos Didácticos | Musidactica</title>
+    <meta name="description" content="Material didáctico descargable para docentes de música: actividades por grado y eje curricular. Fotocopias en PDF listas para la clase de primaria.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.musidactica.com.ar/src/docentes/index.html">
+    <meta property="og:title" content="Área Docentes | Musidactica">
+    <meta property="og:description" content="Actividades musicales filtrables por grado y eje. Descargá fotocopias en PDF para tu clase.">
+    <meta property="og:url" content="https://www.musidactica.com.ar/src/docentes/index.html">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="docentes.css">
+</head>
+<body class="bg-gray">
+    <header class="header">
+        <a href="../../index.html" class="logo" aria-label="Musidactica — Inicio">🎵 Musidactica</a>
+        <nav aria-label="Navegación principal">
+            <ul class="nav-links">
+                <li><a href="../../index.html">Inicio</a></li>
+                <li><a href="../games/index.html">Juegos</a></li>
+                <li><a href="index.html" class="active">Docentes</a></li>
+                <li><a href="../../index.html#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="docentes-hub">
+        <div class="hub-header">
+            <h1>Área Docentes</h1>
+            <p>Actividades listas para aplicar en clase. Filtrá por grado y eje, leé la reseña y descargá la fotocopia en PDF.</p>
+
+            <div class="docentes-filters" role="search" aria-label="Filtros de actividades">
+                <div class="filter-group">
+                    <span class="filter-group-label" id="label-nivel">Nivel</span>
+                    <div class="filter-group-btns" id="nivel-filters" role="group" aria-labelledby="label-nivel"></div>
+                </div>
+                <div class="filter-group">
+                    <span class="filter-group-label" id="label-eje">Eje</span>
+                    <div class="filter-group-btns" id="eje-filters" role="group" aria-labelledby="label-eje"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="actividades-meta">
+            <p class="actividades-count" id="actividades-count" aria-live="polite">15 actividades</p>
+            <p class="actividades-hint">Podés combinar varios filtros a la vez</p>
+        </div>
+
+        <div class="actividades-grid" id="actividades-grid" aria-label="Listado de actividades"></div>
+
+        <div class="actividades-empty" id="actividades-empty" hidden>
+            <div class="actividades-empty-icon" aria-hidden="true">🔍</div>
+            <h2>No hay actividades con esos filtros</h2>
+            <p>Probá seleccionar otro grado o eje, o tocá «Todos» para ver el catálogo completo.</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; <span id="year"></span> Musidactica — Área Docentes.</p>
+    </footer>
+
+    <script type="module" src="js/docentes.js"></script>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
