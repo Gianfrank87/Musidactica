@@ -1,4 +1,5 @@
-import { actividades, NIVELES, EJES } from '../data/actividades.js';
+import { actividades as staticActividades, NIVELES, EJES } from '../data/actividades.js';
+import { supabase } from './supabaseClient.js';
 
 const nivelFiltersEl = document.getElementById('nivel-filters');
 const ejeFiltersEl = document.getElementById('eje-filters');
@@ -8,6 +9,7 @@ const countEl = document.getElementById('actividades-count');
 
 const selectedNiveles = new Set();
 const selectedEjes = new Set();
+let actividades = [];
 
 function createFilterButton(label, group, value) {
   const btn = document.createElement('button');
@@ -132,7 +134,49 @@ function bindFilterEvents() {
   });
 }
 
-renderFilters();
-syncFilterButtons();
-bindFilterEvents();
-renderActividades();
+async function fetchActividades() {
+  try {
+    const isConfigured = supabase && 
+                         supabase.supabaseUrl && 
+                         !supabase.supabaseUrl.includes('TU_SUPABASE_URL') &&
+                         supabase.supabaseUrl !== '';
+
+    if (!isConfigured) {
+      console.log('Supabase no está configurado. Usando actividades estáticas locales.');
+      actividades = staticActividades;
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from('actividades')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    if (data && data.length > 0) {
+      actividades = data.map(act => ({
+        ...act,
+        pdf: act.pdf_url
+      }));
+    } else {
+      // Si la tabla de la base de datos está vacía, usamos las de fallback
+      console.log('Base de datos vacía. Cargando actividades estáticas.');
+      actividades = staticActividades;
+    }
+  } catch (err) {
+    console.error('Error al conectar con Supabase. Usando fallback estático:', err);
+    actividades = staticActividades;
+  }
+}
+
+async function init() {
+  renderFilters();
+  syncFilterButtons();
+  bindFilterEvents();
+  await fetchActividades();
+  renderActividades();
+}
+
+init();
+

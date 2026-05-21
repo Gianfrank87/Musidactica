@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../../../public/images/favicon.png">
+    <link rel="apple-touch-icon" href="../../../public/images/favicon.png">
+    <title>Panel de Administración | Musidactica</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/global.css">
+    <link rel="stylesheet" href="../docentes.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body class="bg-gray">
+    <header class="header">
+        <a href="../../../index.html" class="logo" aria-label="Musidactica — Inicio">🎵 Musidactica</a>
+        <nav aria-label="Navegación principal">
+            <ul class="nav-links">
+                <li><a href="../../../index.html">Inicio</a></li>
+                <li><a href="../../games/index.html">Juegos</a></li>
+                <li><a href="../index.html">Docentes</a></li>
+                <li><a href="#" class="active">Panel Admin</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="admin-hub">
+        <!-- 1. Pantalla de Carga Inicial -->
+        <div id="auth-loading" class="auth-loading">
+            <div class="spinner"></div>
+            <p>Verificando sesión...</p>
+        </div>
+
+        <!-- 2. Pantalla de Inicio de Sesión -->
+        <section id="login-section" class="auth-section" hidden>
+            <div class="auth-card">
+                <h2>Iniciar Sesión</h2>
+                <p class="auth-subtitle">Acceso exclusivo para administradores de Musidactica</p>
+                
+                <div id="login-error" class="alert-message alert-error" hidden></div>
+                
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Correo Electrónico</label>
+                        <input type="email" id="login-email" required placeholder="admin@musidactica.com.ar">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Contraseña</label>
+                        <input type="password" id="login-password" required placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="btn-login-submit">Ingresar</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- 3. Pantalla del Dashboard de Administración -->
+        <section id="dashboard-section" class="dashboard-section" hidden>
+            <div class="dashboard-header">
+                <div>
+                    <h1>Panel de Control</h1>
+                    <p>Agregá nuevas actividades con PDF o eliminá las que ya no necesites.</p>
+                </div>
+                <div class="user-info">
+                    <span id="user-email-display">admin@musidactica.com.ar</span>
+                    <button id="btn-logout" class="btn btn-secondary btn-sm">Cerrar Sesión</button>
+                </div>
+            </div>
+
+            <!-- Grid de dos columnas: Formulario a la izquierda, Listado a la derecha -->
+            <div class="dashboard-grid">
+                
+                <!-- Columna Izquierda: Formulario de Carga -->
+                <article class="dashboard-card form-card">
+                    <h2>Subir Nueva Actividad</h2>
+                    
+                    <div id="form-feedback" class="alert-message" hidden></div>
+
+                    <form id="activity-form">
+                        <div class="form-group">
+                            <label for="act-titulo">Título de la Actividad</label>
+                            <input type="text" id="act-titulo" required placeholder="Ej: Ritmo con vasos o Canto en Canon">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="act-nivel">Grado / Nivel</label>
+                                <select id="act-nivel" required>
+                                    <option value="" disabled selected>Seleccioná...</option>
+                                    <option value="1ro">1ro Grado</option>
+                                    <option value="2do">2do Grado</option>
+                                    <option value="3ro">3ro Grado</option>
+                                    <option value="4to">4to Grado</option>
+                                    <option value="5to">5to Grado</option>
+                                    <option value="6to">6to Grado</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="act-eje">Eje Temático</label>
+                                <select id="act-eje" required>
+                                    <option value="" disabled selected>Seleccioná...</option>
+                                    <option value="Melodía">Melodía</option>
+                                    <option value="Ritmo">Ritmo</option>
+                                    <option value="Canto">Canto</option>
+                                    <option value="Audioperceptiva">Audioperceptiva</option>
+                                    <option value="Lenguaje Musical">Lenguaje Musical</option>
+                                    <option value="Historia de la Música">Historia de la Música</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="act-resena">Reseña / Descripción</label>
+                            <textarea id="act-resena" rows="4" required placeholder="Explicá brevemente en qué consiste la actividad y cómo aplicarla en clase..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="act-pdf">Archivo PDF (Fotocopia)</label>
+                            <div class="file-dropzone" id="file-dropzone">
+                                <input type="file" id="act-pdf" accept=".pdf" required>
+                                <div class="dropzone-content">
+                                    <span class="dropzone-icon">📄</span>
+                                    <span class="dropzone-text">Arrastrá tu PDF aquí o hacé clic para buscar</span>
+                                    <span class="dropzone-filename" id="dropzone-filename"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" id="btn-submit-activity">
+                            <span class="btn-text">Publicar Actividad</span>
+                            <div class="btn-spinner" hidden></div>
+                        </button>
+                    </form>
+                </article>
+
+                <!-- Columna Derecha: Listado de Actividades Existentes -->
+                <article class="dashboard-card list-card">
+                    <div class="list-card-header">
+                        <h2>Actividades Publicadas</h2>
+                        <span class="badge" id="activity-count">0</span>
+                    </div>
+
+                    <div id="list-loading" class="list-loading">
+                        <div class="spinner spinner-sm"></div>
+                        <p>Cargando catálogo...</p>
+                    </div>
+
+                    <div class="admin-actividades-list" id="admin-actividades-list" hidden>
+                        <!-- Se llena dinámicamente con JS -->
+                    </div>
+
+                    <div class="list-empty" id="list-empty" hidden>
+                        <span class="empty-icon">📁</span>
+                        <p>No hay actividades guardadas en la base de datos todavía.</p>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; <span id="year"></span> Musidactica — Panel de Administración.</p>
+    </footer>
+
+    <!-- Script de lógica de administración -->
+    <script type="module" src="admin.js"></script>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

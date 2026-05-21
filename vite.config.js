@@ -11,6 +11,7 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
         games: resolve(__dirname, 'src/games/index.html'),
         docentes: resolve(__dirname, 'src/docentes/index.html'),
+        admin: resolve(__dirname, 'src/docentes/admin/index.html'),
         ritmo: resolve(__dirname, 'src/games/ritmo/index.html'),
         instrumentos: resolve(__dirname, 'src/games/instrumentos/index.html'),
         melodia: resolve(__dirname, 'src/games/melodia/index.html'),
