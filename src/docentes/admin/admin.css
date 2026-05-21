@@ -1,4 +1,7 @@
 /* admin.css - Estilos para el panel de administración */
+[hidden] {
+  display: none !important;
+}
 
 .admin-hub {
   max-width: 1200px;

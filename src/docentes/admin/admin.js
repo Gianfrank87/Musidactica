@@ -1,76 +1,88 @@
 import { supabase } from '../js/supabaseClient.js';
 
-// Elementos del DOM
-const authLoading = document.getElementById('auth-loading');
-const loginSection = document.getElementById('login-section');
-const loginForm = document.getElementById('login-form');
-const loginError = document.getElementById('login-error');
-const loginEmail = document.getElementById('login-email');
-const loginPassword = document.getElementById('login-password');
+// ── Elementos del DOM ──
+var authLoading = document.getElementById('auth-loading');
+var loginSection = document.getElementById('login-section');
+var loginForm = document.getElementById('login-form');
+var loginError = document.getElementById('login-error');
+var loginEmail = document.getElementById('login-email');
+var loginPassword = document.getElementById('login-password');
 
-const dashboardSection = document.getElementById('dashboard-section');
-const userEmailDisplay = document.getElementById('user-email-display');
-const btnLogout = document.getElementById('btn-logout');
+var dashboardSection = document.getElementById('dashboard-section');
+var userEmailDisplay = document.getElementById('user-email-display');
+var btnLogout = document.getElementById('btn-logout');
 
-const activityForm = document.getElementById('activity-form');
-const formFeedback = document.getElementById('form-feedback');
-const actTitulo = document.getElementById('act-titulo');
-const actNivel = document.getElementById('act-nivel');
-const actEje = document.getElementById('act-eje');
-const actResena = document.getElementById('act-resena');
-const actPdf = document.getElementById('act-pdf');
-const fileDropzone = document.getElementById('file-dropzone');
-const dropzoneFilename = document.getElementById('dropzone-filename');
-const btnSubmitActivity = document.getElementById('btn-submit-activity');
+var activityForm = document.getElementById('activity-form');
+var formFeedback = document.getElementById('form-feedback');
+var actTitulo = document.getElementById('act-titulo');
+var actNivel = document.getElementById('act-nivel');
+var actEje = document.getElementById('act-eje');
+var actResena = document.getElementById('act-resena');
+var actPdf = document.getElementById('act-pdf');
+var fileDropzone = document.getElementById('file-dropzone');
+var dropzoneFilename = document.getElementById('dropzone-filename');
+var btnSubmitActivity = document.getElementById('btn-submit-activity');
 
-const listLoading = document.getElementById('list-loading');
-const adminActividadesList = document.getElementById('admin-actividades-list');
-const listEmpty = document.getElementById('list-empty');
-const activityCount = document.getElementById('activity-count');
+var listLoading = document.getElementById('list-loading');
+var adminActividadesList = document.getElementById('admin-actividades-list');
+var listEmpty = document.getElementById('list-empty');
+var activityCount = document.getElementById('activity-count');
 
-// Lista local para visualización y eliminación rápida
-let loadedActividades = [];
+// Lista local
+var loadedActividades = [];
 
-// 1. Verificación de configuración inicial de Supabase
-const isConfigured = supabase && 
-                     supabase.supabaseUrl && 
-                     !supabase.supabaseUrl.includes('TU_SUPABASE_URL') &&
-                     supabase.supabaseUrl !== '';
+// ── 1. Verificar configuración de Supabase ──
+function isSupabaseConfigured() {
+  try {
+    var url = supabase.supabaseUrl || '';
+    return url.length > 0 && url.indexOf('TU_SUPABASE_URL') === -1;
+  } catch (e) {
+    return false;
+  }
+}
 
-if (!isConfigured) {
+if (!isSupabaseConfigured()) {
   authLoading.style.display = 'none';
   loginSection.removeAttribute('hidden');
-  loginSection.style.display = 'block';
-  loginSection.innerHTML = `
-    <div class="auth-card" style="max-width: 600px; margin: 2rem auto;">
-      <h2 style="color: #ef4444; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
-        <span>⚠️</span> Supabase no configurado
-      </h2>
-      <p style="margin-bottom: 1rem; line-height: 1.6; color: #334155;">
-        Para empezar a utilizar el panel de administración, primero debés configurar tus credenciales públicas en el archivo:
-      </p>
-      <div style="background: #f1f5f9; padding: 0.75rem 1rem; border-radius: 6px; font-family: monospace; font-size: 0.9rem; margin-bottom: 1.5rem; border-left: 4px solid #6366f1;">
-        /src/docentes/js/supabaseClient.js
-      </div>
-      <p style="line-height: 1.6; color: #64748b; font-size: 0.95rem;">
-        Reemplazá las constantes <code>SUPABASE_URL</code> y <code>SUPABASE_ANON_KEY</code> con los valores de tu proyecto (los encontrás en el panel de Supabase: <strong>Project Settings > API</strong>).
-      </p>
-    </div>
-  `;
+  loginSection.innerHTML =
+    '<div class="auth-card" style="max-width:600px;margin:2rem auto;">' +
+      '<h2 style="color:#ef4444;">Supabase no configurado</h2>' +
+      '<p>Configurá las credenciales en <code>src/docentes/js/supabaseClient.js</code></p>' +
+    '</div>';
 } else {
-  // Si está configurado, iniciamos la escucha de sesión
   initAuth();
 }
 
-// 2. Control de Autenticación
-function initAuth() {
-  // Comprobar sesión actual
-  supabase.auth.getSession().then(({ data: { session } }) => {
-    handleAuthState(session);
+// ── 2. Autenticación ──
+function withTimeout(promise, ms) {
+  return new Promise(function(resolve, reject) {
+    var timer = setTimeout(function() {
+      reject(new Error('La conexión con Supabase tardó demasiado. Verificá tu URL y Anon Key en supabaseClient.js'));
+    }, ms);
+    promise.then(function(val) {
+      clearTimeout(timer);
+      resolve(val);
+    }).catch(function(err) {
+      clearTimeout(timer);
+      reject(err);
+    });
   });
+}
 
-  // Escuchar cambios de sesión (login/logout)
-  supabase.auth.onAuthStateChange((_event, session) => {
+function initAuth() {
+  withTimeout(supabase.auth.getSession(), 5000)
+    .then(function(result) {
+      handleAuthState(result.data.session);
+    })
+    .catch(function(err) {
+      console.error('Error verificando sesión:', err);
+      authLoading.style.display = 'none';
+      loginSection.removeAttribute('hidden');
+      loginError.textContent = err.message || 'Error al conectar con Supabase. Verificá la URL y la Anon Key.';
+      loginError.removeAttribute('hidden');
+    });
+
+  supabase.auth.onAuthStateChange(function(_event, session) {
     handleAuthState(session);
   });
 }
@@ -79,78 +91,71 @@ function handleAuthState(session) {
   authLoading.style.display = 'none';
 
   if (session) {
-    // Sesión iniciada
     loginSection.setAttribute('hidden', 'true');
-    loginSection.style.display = 'none';
     dashboardSection.removeAttribute('hidden');
-    
     userEmailDisplay.textContent = session.user.email;
     loadActivitiesList();
   } else {
-    // Sesión cerrada
     dashboardSection.setAttribute('hidden', 'true');
     loginSection.removeAttribute('hidden');
-    loginSection.style.display = 'block';
-    
-    // Limpiar campos de login
     loginForm.reset();
   }
 }
 
-// Evento Login
-loginForm.addEventListener('submit', async (e) => {
+// ── Evento Login ──
+loginForm.addEventListener('submit', function(e) {
   e.preventDefault();
-  
-  const email = loginEmail.value.trim();
-  const password = loginPassword.value;
-  
-  // UI en carga
-  const btnSubmit = document.getElementById('btn-login-submit');
-  const originalText = btnSubmit.textContent;
+
+  var email = loginEmail.value.trim();
+  var password = loginPassword.value;
+
+  var btnSubmit = document.getElementById('btn-login-submit');
+  var originalText = btnSubmit.textContent;
   btnSubmit.disabled = true;
-  btnSubmit.innerHTML = `Ingresando... <div class="btn-spinner"></div>`;
+  btnSubmit.textContent = 'Ingresando...';
   loginError.setAttribute('hidden', 'true');
 
-  try {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) throw error;
-  } catch (err) {
-    console.error('Error de login:', err);
-    loginError.textContent = translateAuthError(err.message);
-    loginError.removeAttribute('hidden');
-  } finally {
-    btnSubmit.disabled = false;
-    btnSubmit.textContent = originalText;
+  supabase.auth.signInWithPassword({ email: email, password: password })
+    .then(function(result) {
+      if (result.error) throw result.error;
+    })
+    .catch(function(err) {
+      console.error('Error de login:', err);
+      loginError.textContent = translateAuthError(err.message);
+      loginError.removeAttribute('hidden');
+    })
+    .finally(function() {
+      btnSubmit.disabled = false;
+      btnSubmit.textContent = originalText;
+    });
+});
+
+// ── Evento Logout ──
+btnLogout.addEventListener('click', function() {
+  if (confirm('¿Cerrar sesión?')) {
+    supabase.auth.signOut();
   }
 });
 
-// Evento Logout
-btnLogout.addEventListener('click', async () => {
-  if (confirm('¿Estás seguro de que querés cerrar sesión?')) {
-    await supabase.auth.signOut();
-  }
-});
-
-// Traducir mensajes comunes de error
 function translateAuthError(msg) {
-  if (msg.includes('Invalid login credentials')) {
-    return 'Credenciales inválidas. Por favor, verifica el email y la contraseña.';
+  if (msg.indexOf('Invalid login credentials') !== -1) {
+    return 'Credenciales inválidas. Verificá email y contraseña.';
   }
-  if (msg.includes('Email not confirmed')) {
-    return 'El correo electrónico no ha sido verificado todavía.';
+  if (msg.indexOf('Email not confirmed') !== -1) {
+    return 'El correo electrónico no fue verificado todavía.';
   }
   return msg;
 }
 
-// 3. Gestión del Formulario y Dropzone
-fileDropzone.addEventListener('dragover', (e) => {
+// ── 3. Dropzone ──
+fileDropzone.addEventListener('dragover', function(e) {
   e.preventDefault();
   fileDropzone.classList.add('dragover');
 });
-fileDropzone.addEventListener('dragleave', () => {
+fileDropzone.addEventListener('dragleave', function() {
   fileDropzone.classList.remove('dragover');
 });
-fileDropzone.addEventListener('drop', (e) => {
+fileDropzone.addEventListener('drop', function(e) {
   e.preventDefault();
   fileDropzone.classList.remove('dragover');
   if (e.dataTransfer.files.length) {
@@ -162,99 +167,86 @@ actPdf.addEventListener('change', updateFilenameLabel);
 
 function updateFilenameLabel() {
   if (actPdf.files.length) {
-    dropzoneFilename.textContent = `Seleccionado: ${actPdf.files[0].name}`;
+    dropzoneFilename.textContent = 'Seleccionado: ' + actPdf.files[0].name;
   } else {
     dropzoneFilename.textContent = '';
   }
 }
 
-// Publicar actividad (Subida de PDF y registro en DB)
-activityForm.addEventListener('submit', async (e) => {
+// ── 4. Publicar actividad ──
+activityForm.addEventListener('submit', function(e) {
   e.preventDefault();
-  
-  const file = actPdf.files[0];
+
+  var file = actPdf.files[0];
   if (!file) {
-    showFormFeedback('Por favor, selecciona un archivo PDF.', 'error');
+    showFormFeedback('Por favor, seleccioná un archivo PDF.', 'error');
     return;
   }
-
   if (file.type !== 'application/pdf') {
     showFormFeedback('El archivo debe ser un PDF.', 'error');
     return;
   }
 
-  // Deshabilitar formulario y mostrar spinner
   setFormLoadingState(true);
-  showFormFeedback('Subiendo archivo PDF a almacenamiento...', 'success');
+  showFormFeedback('Subiendo archivo PDF...', 'success');
 
-  try {
-    // A. Subir PDF a Supabase Storage
-    const fileExt = file.name.split('.').pop();
-    // Generar un nombre único de archivo para evitar colisiones
-    const uniqueFileName = `${Date.now()}-${Math.random().toString(36).substring(2, 10)}.${fileExt}`;
-    
-    const { data: uploadData, error: uploadError } = await supabase.storage
-      .from('actividades-pdfs')
-      .upload(uniqueFileName, file, {
-        cacheControl: '3600',
-        upsert: false
-      });
+  var fileExt = file.name.split('.').pop();
+  var uniqueFileName = Date.now() + '-' + Math.random().toString(36).substring(2, 10) + '.' + fileExt;
 
-    if (uploadError) throw uploadError;
+  supabase.storage
+    .from('actividades-pdfs')
+    .upload(uniqueFileName, file, { cacheControl: '3600', upsert: false })
+    .then(function(uploadResult) {
+      if (uploadResult.error) throw uploadResult.error;
 
-    // B. Obtener URL pública del archivo
-    const { data: urlData } = supabase.storage
-      .from('actividades-pdfs')
-      .getPublicUrl(uniqueFileName);
-    
-    const publicPdfUrl = urlData.publicUrl;
+      var urlData = supabase.storage
+        .from('actividades-pdfs')
+        .getPublicUrl(uniqueFileName);
 
-    // C. Guardar registro en la base de datos
-    showFormFeedback('Registrando actividad en la base de datos...', 'success');
-    
-    const { error: dbError } = await supabase
-      .from('actividades')
-      .insert([
-        {
+      var publicPdfUrl = urlData.data.publicUrl;
+
+      showFormFeedback('Registrando actividad...', 'success');
+
+      return supabase
+        .from('actividades')
+        .insert([{
           titulo: actTitulo.value.trim(),
           nivel: actNivel.value,
           eje: actEje.value,
           resena: actResena.value.trim(),
           pdf_url: publicPdfUrl
-        }
-      ]);
+        }])
+        .then(function(dbResult) {
+          if (dbResult.error) {
+            // Borrar el PDF si falla la inserción en la DB
+            supabase.storage.from('actividades-pdfs').remove([uniqueFileName]);
+            throw dbResult.error;
+          }
 
-    if (dbError) {
-      // Intentamos borrar el PDF subido si falla el registro en la DB
-      await supabase.storage.from('actividades-pdfs').remove([uniqueFileName]);
-      throw dbError;
-    }
-
-    // D. Éxito
-    showFormFeedback('¡Actividad publicada con éxito!', 'success');
-    activityForm.reset();
-    dropzoneFilename.textContent = '';
-    
-    // Recargar listado
-    await loadActivitiesList();
-
-  } catch (err) {
-    console.error('Error al guardar actividad:', err);
-    showFormFeedback(`Error: ${err.message || 'No se pudo guardar la actividad'}`, 'error');
-  } finally {
-    setFormLoadingState(false);
-  }
+          showFormFeedback('¡Actividad publicada con éxito!', 'success');
+          activityForm.reset();
+          dropzoneFilename.textContent = '';
+          return loadActivitiesList();
+        });
+    })
+    .catch(function(err) {
+      console.error('Error al guardar actividad:', err);
+      showFormFeedback('Error: ' + (err.message || 'No se pudo guardar la actividad'), 'error');
+    })
+    .finally(function() {
+      setFormLoadingState(false);
+    });
 });
 
 function showFormFeedback(msg, type) {
   formFeedback.textContent = msg;
-  formFeedback.className = `alert-message alert-${type}`;
+  formFeedback.className = 'alert-message alert-' + type;
   formFeedback.removeAttribute('hidden');
 }
 
 function setFormLoadingState(isLoading) {
-  const btnSpinner = btnSubmitActivity.querySelector('.btn-spinner');
-  const btnText = btnSubmitActivity.querySelector('.btn-text');
+  var btnSpinner = btnSubmitActivity.querySelector('.btn-spinner');
+  var btnText = btnSubmitActivity.querySelector('.btn-text');
 
   if (isLoading) {
     btnSubmitActivity.disabled = true;
@@ -267,29 +259,27 @@ function setFormLoadingState(isLoading) {
   }
 }
 
-// 4. Gestión del listado
-async function loadActivitiesList() {
+// ── 5. Listado de actividades ──
+function loadActivitiesList() {
   listLoading.style.display = 'flex';
   adminActividadesList.setAttribute('hidden', 'true');
   listEmpty.setAttribute('hidden', 'true');
 
-  try {
-    const { data, error } = await supabase
-      .from('actividades')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (error) throw error;
-
-    loadedActividades = data || [];
-    renderAdminList();
-
-  } catch (err) {
-    console.error('Error al listar actividades:', err);
-    listLoading.style.display = 'none';
-    listEmpty.querySelector('p').textContent = 'Error al cargar las actividades.';
-    listEmpty.removeAttribute('hidden');
-  }
+  return supabase
+    .from('actividades')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .then(function(result) {
+      if (result.error) throw result.error;
+      loadedActividades = result.data || [];
+      renderAdminList();
+    })
+    .catch(function(err) {
+      console.error('Error al listar actividades:', err);
+      listLoading.style.display = 'none';
+      listEmpty.querySelector('p').textContent = 'Error al cargar las actividades.';
+      listEmpty.removeAttribute('hidden');
+    });
 }
 
 function renderAdminList() {
@@ -305,26 +295,46 @@ function renderAdminList() {
   listEmpty.setAttribute('hidden', 'true');
   adminActividadesList.replaceChildren();
 
-  loadedActividades.forEach(act => {
-    const item = document.createElement('div');
+  loadedActividades.forEach(function(act) {
+    var item = document.createElement('div');
     item.className = 'admin-actividad-item';
     item.dataset.id = act.id;
 
-    item.innerHTML = `
-      <div class="item-info">
-        <span class="item-title">${act.titulo}</span>
-        <div class="item-tags">
-          <span class="item-tag item-tag-level">${act.nivel} grado</span>
-          <span class="item-tag item-tag-category">${act.eje}</span>
-        </div>
-      </div>
-      <div class="item-actions">
-        <button class="btn btn-danger btn-sm btn-delete" data-id="${act.id}" data-pdf="${act.pdf_url}">
-          Eliminar
-        </button>
-      </div>
-    `;
+    var info = document.createElement('div');
+    info.className = 'item-info';
 
+    var title = document.createElement('span');
+    title.className = 'item-title';
+    title.textContent = act.titulo;
+
+    var tags = document.createElement('div');
+    tags.className = 'item-tags';
+
+    var tagLevel = document.createElement('span');
+    tagLevel.className = 'item-tag item-tag-level';
+    tagLevel.textContent = act.nivel + ' grado';
+
+    var tagCat = document.createElement('span');
+    tagCat.className = 'item-tag item-tag-category';
+    tagCat.textContent = act.eje;
+
+    tags.appendChild(tagLevel);
+    tags.appendChild(tagCat);
+    info.appendChild(title);
+    info.appendChild(tags);
+
+    var actions = document.createElement('div');
+    actions.className = 'item-actions';
+
+    var btnDel = document.createElement('button');
+    btnDel.className = 'btn btn-danger btn-sm btn-delete';
+    btnDel.textContent = 'Eliminar';
+    btnDel.dataset.id = act.id;
+    btnDel.dataset.pdf = act.pdf_url || '';
+
+    actions.appendChild(btnDel);
+    item.appendChild(info);
+    item.appendChild(actions);
     adminActividadesList.appendChild(item);
   });
 
@@ -333,51 +343,44 @@ function renderAdminList() {
 }
 
 function bindDeleteEvents() {
-  const deleteButtons = adminActividadesList.querySelectorAll('.btn-delete');
-  deleteButtons.forEach(btn => {
-    btn.addEventListener('click', async (e) => {
-      const id = btn.dataset.id;
-      const pdfUrl = btn.dataset.pdf;
-      
-      const act = loadedActividades.find(a => a.id === id);
+  var deleteButtons = adminActividadesList.querySelectorAll('.btn-delete');
+  deleteButtons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var id = btn.dataset.id;
+      var pdfUrl = btn.dataset.pdf;
+
+      var act = loadedActividades.find(function(a) { return a.id === id; });
       if (!act) return;
 
-      if (confirm(`¿Estás seguro de que querés eliminar la actividad "${act.titulo}"? Esta acción no se puede deshacer.`)) {
-        btn.disabled = true;
-        btn.textContent = 'Eliminando...';
+      if (!confirm('¿Eliminar la actividad "' + act.titulo + '"? No se puede deshacer.')) return;
 
-        try {
-          // A. Eliminar registro de la base de datos
-          const { error: dbError } = await supabase
-            .from('actividades')
-            .delete()
-            .eq('id', id);
+      btn.disabled = true;
+      btn.textContent = 'Eliminando...';
 
-          if (dbError) throw dbError;
+      supabase
+        .from('actividades')
+        .delete()
+        .eq('id', id)
+        .then(function(result) {
+          if (result.error) throw result.error;
 
-          // B. Eliminar el archivo del Storage
+          // Borrar PDF del storage
           if (pdfUrl) {
-            // Extraer el nombre de archivo de la URL
-            // Ejemplo URL: https://.../storage/v1/object/public/actividades-pdfs/171624021-test.pdf
-            const fileName = pdfUrl.split('/').pop();
+            var fileName = pdfUrl.split('/').pop();
             if (fileName) {
-              await supabase.storage
-                .from('actividades-pdfs')
-                .remove([fileName]);
+              supabase.storage.from('actividades-pdfs').remove([fileName]);
             }
           }
 
-          // C. Éxito: Remover del listado local y re-renderizar
-          loadedActividades = loadedActividades.filter(a => a.id !== id);
+          loadedActividades = loadedActividades.filter(function(a) { return a.id !== id; });
           renderAdminList();
-
-        } catch (err) {
+        })
+        .catch(function(err) {
           console.error('Error al eliminar actividad:', err);
-          alert(`Error al eliminar actividad: ${err.message}`);
+          alert('Error al eliminar: ' + err.message);
           btn.disabled = false;
           btn.textContent = 'Eliminar';
-        }
-      }
+        });
     });
   });
 }
