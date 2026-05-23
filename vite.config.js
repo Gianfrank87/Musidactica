@@ -11,7 +11,11 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
         games: resolve(__dirname, 'src/games/index.html'),
         docentes: resolve(__dirname, 'src/docentes/index.html'),
+<<<<<<< HEAD
         admin: resolve(__dirname, 'src/docentes/admin/index.html'),
+=======
+        cancionero: resolve(__dirname, 'src/cancionero/index.html'),
+>>>>>>> develop
         ritmo: resolve(__dirname, 'src/games/ritmo/index.html'),
         instrumentos: resolve(__dirname, 'src/games/instrumentos/index.html'),
         melodia: resolve(__dirname, 'src/games/melodia/index.html'),

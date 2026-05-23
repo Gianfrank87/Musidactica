@@ -1,0 +1,398 @@
+/* ═══════════════════════════════════════════════════════════
+   Cancionero de Aula — Estilos Específicos Premium
+   ══════════════════════════════════════════════════════════ */
+
+.cancionero-hub {
+  padding: 4rem 5%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cancionero-hub .hub-header h1 {
+  font-size: 3rem;
+  color: var(--color-primary);
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+
+.cancionero-hub .hub-header > p {
+  color: var(--color-text-light);
+  font-size: 1.15rem;
+  max-width: 720px;
+  margin: 0 auto 3rem;
+  text-align: center;
+  line-height: 1.7;
+}
+
+/* Panel de Controles (Buscador y Categorías) */
+.cancionero-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  background: var(--color-surface);
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 3rem;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+/* Buscador Estilizado */
+.search-box {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 1rem 3rem 1rem 1.5rem;
+  border: 2px solid #e2e8f0;
+  border-radius: var(--radius-pill);
+  font-family: inherit;
+  font-size: 1.05rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+  background-color: var(--color-background);
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  background-color: var(--color-surface);
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.15), var(--shadow-sm);
+}
+
+.clear-btn {
+  position: absolute;
+  right: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--color-text-light);
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.clear-btn:hover {
+  color: var(--color-primary);
+}
+
+/* Pestañas de Categoría (Pills) */
+.category-filters {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.filter-tab {
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid #cbd5e1;
+  background: var(--color-surface);
+  color: var(--color-text-light);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.filter-tab:hover {
+  background-color: var(--color-background);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+.filter-tab.active {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+
+/* Meta información de resultados */
+.canciones-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 0 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.canciones-count {
+  font-weight: 800;
+  color: var(--color-text);
+  font-size: 1.05rem;
+}
+
+.canciones-hint {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  font-weight: 500;
+}
+
+/* Grilla de Canciones */
+.canciones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+/* Tarjeta de Canción (Premium) */
+.cancion-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  border-left: 5px solid var(--color-primary);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 1px solid rgba(226, 232, 240, 0.5);
+  border-left-width: 5px;
+}
+
+.cancion-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Bordes de color dinámicos según categoría */
+.cancion-card.cat-infantil { border-left-color: #7c3aed; } /* Violeta */
+.cancion-card.cat-folclore { border-left-color: #b45309; } /* Bronce/Naranja cálido */
+.cancion-card.cat-rock { border-left-color: #e11d48; }     /* Rojo Rock */
+.cancion-card.cat-patria { border-left-color: #0ea5e9; }   /* Celeste */
+
+.cancion-card-header {
+  padding: 1.5rem 1.5rem 1rem;
+}
+
+.cancion-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.cancion-titulo {
+  font-size: 1.35rem;
+  color: var(--color-text);
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.cancion-artista {
+  font-size: 0.95rem;
+  color: var(--color-text-light);
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+/* Badges */
+.cancion-badges {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.badge {
+  font-size: 0.72rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-pill);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.badge-cat-infantil { background-color: #f5f3ff; color: #7c3aed; }
+.badge-cat-folclore { background-color: #fffbeb; color: #b45309; }
+.badge-cat-rock { background-color: #fff1f2; color: #e11d48; }
+.badge-cat-patria { background-color: #f0f9ff; color: #0ea5e9; }
+
+.badge-status {
+  background-color: #f1f5f9;
+  color: #64748b;
+  border: 1px dashed #cbd5e1;
+}
+
+/* Cuerpo de la Tarjeta */
+.cancion-card-body {
+  padding: 0 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  flex: 1;
+}
+
+.cancion-resena {
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  background: var(--color-background);
+  border-radius: var(--radius-md);
+  border-left: 2px solid #e2e8f0;
+}
+
+/* Contenedor del reproductor de Spotify */
+.spotify-embed-container {
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #000;
+  height: 80px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s;
+}
+
+.spotify-embed-container:focus-within {
+  box-shadow: 0 0 0 3px rgba(30, 215, 96, 0.3); /* Brillo verde Spotify */
+}
+
+/* Botones de Descarga en el Footer de la Tarjeta */
+.cancion-card-footer {
+  padding: 1.25rem 1.5rem 1.5rem;
+  border-top: 1px solid #f1f5f9;
+  background: #fafafa;
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* Botón de Descarga Estilo Ficha */
+.download-action-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-radius: var(--radius-md);
+  background: white;
+  border: 1px solid #e2e8f0;
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.download-action-btn:hover {
+  border-color: var(--color-primary);
+  background: #fdfdfd;
+  color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.download-action-btn svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.2s ease;
+}
+
+.download-action-btn:hover svg {
+  transform: translateY(1px);
+}
+
+/* Botón de MP3 Especial para Patrias */
+.download-action-btn.btn-mp3 {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  color: white;
+  border: none;
+  box-shadow: 0 3px 6px rgba(14, 165, 233, 0.3);
+}
+
+.download-action-btn.btn-mp3:hover {
+  background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(14, 165, 233, 0.4);
+}
+
+.download-action-btn.disabled {
+  opacity: 0.65;
+  background: #f1f5f9;
+  color: #94a3b8;
+  border-color: #e2e8f0;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Estado Vacío de Búsqueda */
+.canciones-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(226, 232, 240, 0.6);
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.canciones-empty-icon {
+  font-size: 4.5rem;
+  margin-bottom: 1rem;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+
+.canciones-empty h2 {
+  font-size: 1.5rem;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.canciones-empty p {
+  color: var(--color-text-light);
+}
+
+/* Adaptabilidad (Responsive) */
+@media (max-width: 768px) {
+  .cancionero-hub .hub-header h1 {
+    font-size: 2.25rem;
+  }
+
+  .cancionero-controls {
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+
+  .filter-tab {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.88rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cancion-card-footer {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .download-action-btn {
+    width: 100%;
+  }
+}

@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎵 Admin — Cancionero | Musidactica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ══════════════════════════════════════════════════
+       RESET & TOKENS
+    ══════════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d0f1a;
+      --surface:   #151825;
+      --surface2:  #1e2235;
+      --border:    #2a2f4a;
+      --primary:   #7c3aed;
+      --primary-h: #9150f0;
+      --accent:    #f97316;
+      --green:     #10b981;
+      --red:       #ef4444;
+      --text:      #e2e8f0;
+      --muted:     #64748b;
+      --radius:    14px;
+      --radius-sm: 8px;
+      --font:      'Outfit', sans-serif;
+
+      --cat-infantil: #7c3aed;
+      --cat-folclore: #b45309;
+      --cat-rock:     #e11d48;
+      --cat-patria:   #0ea5e9;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ══════════════════════════════════════════════════
+       LAYOUT
+    ══════════════════════════════════════════════════ */
+    .app {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 100vh;
+    }
+
+    /* ── Sidebar ──────────────────────────────────── */
+    .sidebar {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--primary-h);
+    }
+
+    .sidebar-logo span { font-size: 1.75rem; }
+
+    .sidebar-section-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stat-num {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .stat-label { font-size: 0.82rem; color: var(--muted); }
+
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+    .cat-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s;
+      width: 100%;
+      text-align: left;
+    }
+
+    .cat-pill:hover { border-color: var(--primary); background: rgba(124,58,237,.1); }
+    .cat-pill.active { background: rgba(124,58,237,.15); border-color: var(--primary); color: #c4b5fd; }
+
+    .cat-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      font-size: 0.78rem;
+      color: var(--muted);
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Main Content ─────────────────────────────── */
+    .main {
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    /* ── Header ───────────────────────────────────── */
+    .top-bar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 1.25rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .top-bar h1 {
+      font-size: 1.3rem;
+      font-weight: 800;
+    }
+
+    .top-bar-actions { display: flex; gap: 0.75rem; align-items: center; }
+
+    .server-status {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--muted);
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--radius-sm);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+    }
+
+    .server-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--muted);
+      transition: background 0.3s;
+    }
+
+    .server-status.online  { color: var(--green); border-color: rgba(16,185,129,.3); background: rgba(16,185,129,.08); }
+    .server-status.offline { color: var(--red);   border-color: rgba(239,68,68,.3);  background: rgba(239,68,68,.08);  }
+    .server-status.online  .server-dot { background: var(--green); box-shadow: 0 0 6px var(--green); }
+    .server-status.offline .server-dot { background: var(--red); }
+
+    /* ── Content Area ─────────────────────────────── */
+    .content { padding: 2rem 2.5rem; display: flex; flex-direction: column; gap: 2.5rem; }
+
+    /* ══════════════════════════════════════════════════
+       FORM PANEL
+    ══════════════════════════════════════════════════ */
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .panel-header {
+      padding: 1.25rem 1.75rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .panel-header-icon {
+      font-size: 1.25rem;
+    }
+
+    .panel-body { padding: 1.75rem; }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .form-grid .span-2 { grid-column: 1 / -1; }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .field label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+    }
+
+    .field label .req { color: var(--accent); margin-left: 2px; }
+
+    .field input,
+    .field textarea,
+    .field select {
+      background: var(--surface2);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 0.95rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      width: 100%;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(124,58,237,0.2);
+    }
+
+    .field textarea { resize: vertical; min-height: 80px; }
+
+    .field select option { background: var(--surface2); }
+
+    /* Streaming URL with live preview badge */
+    .url-input-wrapper {
+      position: relative;
+    }
+
+    .url-input-wrapper input { padding-right: 7rem; }
+
+    .url-badge {
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+
+    .url-badge.spotify { background: #1ed760; color: #000; }
+    .url-badge.youtube { background: #ff0000; color: #fff; }
+    .url-badge.unknown { background: var(--border); color: var(--muted); }
+
+    /* Category Selector */
+    .cat-selector {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.6rem;
+    }
+
+    .cat-radio { display: none; }
+
+    .cat-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.9rem 0.5rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .cat-label .cat-emoji { font-size: 1.5rem; }
+
+    .cat-radio:checked + .cat-label { border-color: currentColor; color: var(--text); }
+    .cat-radio[value="infantil"]:checked + .cat-label { color: var(--cat-infantil); background: rgba(124,58,237,.1); border-color: var(--cat-infantil); }
+    .cat-radio[value="folclore"]:checked + .cat-label { color: var(--cat-folclore); background: rgba(180,83,9,.1); border-color: var(--cat-folclore); }
+    .cat-radio[value="rock"]:checked + .cat-label    { color: var(--cat-rock);     background: rgba(225,29,72,.1); border-color: var(--cat-rock); }
+    .cat-radio[value="patria"]:checked + .cat-label  { color: var(--cat-patria);   background: rgba(14,165,233,.1); border-color: var(--cat-patria); }
+
+    /* Form Actions */
+    .form-actions { display: flex; gap: 1rem; margin-top: 1.5rem; align-items: center; }
+
+    /* ══════════════════════════════════════════════════
+       BUTTONS
+    ══════════════════════════════════════════════════ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-sm);
+      border: none;
+      font-family: var(--font);
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 4px 14px rgba(124,58,237,.4);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--primary-h);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(124,58,237,.5);
+    }
+
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--muted);
+      border: 1.5px solid var(--border);
+    }
+
+    .btn-ghost:hover { color: var(--text); border-color: var(--muted); }
+
+    .btn-sm { padding: 0.4rem 0.9rem; font-size: 0.8rem; }
+
+    .btn-danger { background: var(--red); color: white; }
+    .btn-danger:hover { background: #dc2626; }
+
+    /* ══════════════════════════════════════════════════
+       TOAST NOTIFICATION
+    ══════════════════════════════════════════════════ */
+    .toast-container {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      min-width: 280px;
+      max-width: 380px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.5);
+      animation: slideInToast 0.3s ease;
+      pointer-events: all;
+    }
+
+    @keyframes slideInToast {
+      from { transform: translateX(100%); opacity: 0; }
+      to   { transform: translateX(0);   opacity: 1; }
+    }
+
+    .toast.success { border-left: 4px solid var(--green); }
+    .toast.error   { border-left: 4px solid var(--red); }
+    .toast-icon    { font-size: 1.25rem; }
+
+    /* ══════════════════════════════════════════════════
+       SONGS TABLE
+    ══════════════════════════════════════════════════ */
+    .songs-table-wrap { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    thead th {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      font-weight: 700;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid rgba(42,47,74,.6);
+      transition: background 0.15s;
+    }
+
+    tbody tr:hover { background: rgba(255,255,255,.02); }
+
+    tbody td {
+      padding: 0.85rem 1rem;
+      vertical-align: middle;
+    }
+
+    .song-id {
+      font-size: 0.75rem;
+      font-family: monospace;
+      color: var(--muted);
+    }
+
+    .cat-badge {
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .cat-badge.infantil { background: rgba(124,58,237,.2);  color: #c4b5fd; }
+    .cat-badge.folclore { background: rgba(180,83,9,.2);    color: #fbbf24; }
+    .cat-badge.rock     { background: rgba(225,29,72,.2);   color: #fca5a5; }
+    .cat-badge.patria   { background: rgba(14,165,233,.2);  color: #7dd3fc; }
+
+    .platform-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+    }
+
+    .platform-badge.spotify { background: #1ed76020; color: #1ed760; }
+    .platform-badge.youtube { background: #ff000020; color: #ff6666; }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .empty-state .empty-icon { font-size: 3rem; display: block; margin-bottom: 0.75rem; }
+
+    /* Loading */
+    .loading {
+      display: inline-block;
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Highlight flash on new row */
+    @keyframes highlightNew {
+      0%   { background: rgba(124,58,237,.3); }
+      100% { background: transparent; }
+    }
+
+    .row-new { animation: highlightNew 2s ease forwards; }
+
+    /* ══════════════════════════════════════════════════
+       MOBILE
+    ══════════════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .form-grid { grid-template-columns: 1fr; }
+      .cat-selector { grid-template-columns: 1fr 1fr; }
+      .content { padding: 1.25rem; }
+      .top-bar { padding: 1rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app">
+  <!-- ═══════════════════════════════════
+       SIDEBAR
+  ════════════════════════════════════ -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <span>🎵</span>
+      <div>
+        <div>Musidactica</div>
+        <div style="font-size:0.72rem;font-weight:400;color:var(--muted);margin-top:-2px">Panel Admin · Cancionero</div>
+      </div>
+    </div>
+
+    <div>
+      <p class="sidebar-section-title">Estadísticas</p>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-num" id="stat-total">—</span>
+          <span class="stat-label">Total</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" id="stat-infantil">—</span>
+          <span class="stat-label">Infantil</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" id="stat-folclore">—</span>
+          <span class="stat-label">Folclore</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" id="stat-rock">—</span>
+          <span class="stat-label">Rock</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <p class="sidebar-section-title">Filtrar por Categoría</p>
+      <div style="display:flex;flex-direction:column;gap:0.5rem">
+        <button class="cat-pill active" data-filter="all" onclick="setFilter('all')">
+          <span class="cat-dot" style="background:#7c3aed"></span> Todas las canciones
+        </button>
+        <button class="cat-pill" data-filter="infantil" onclick="setFilter('infantil')">
+          <span class="cat-dot" style="background:#7c3aed"></span> Infantil / General
+        </button>
+        <button class="cat-pill" data-filter="folclore" onclick="setFilter('folclore')">
+          <span class="cat-dot" style="background:#b45309"></span> Folclore Nacional
+        </button>
+        <button class="cat-pill" data-filter="rock" onclick="setFilter('rock')">
+          <span class="cat-dot" style="background:#e11d48"></span> Rock Nacional
+        </button>
+        <button class="cat-pill" data-filter="patria" onclick="setFilter('patria')">
+          <span class="cat-dot" style="background:#0ea5e9"></span> Canciones Patrias
+        </button>
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      Los cambios se escriben directamente en <code>canciones.js</code>.<br>
+      Luego hacé deploy normalmente.
+    </div>
+  </aside>
+
+  <!-- ═══════════════════════════════════
+       MAIN
+  ════════════════════════════════════ -->
+  <div class="main">
+    <div class="top-bar">
+      <h1>Cancionero de Aula — Editor</h1>
+      <div class="top-bar-actions">
+        <div class="server-status" id="server-status">
+          <span class="server-dot"></span>
+          <span id="server-status-text">Verificando...</span>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="loadSongs()">↺ Actualizar lista</button>
+        <a href="../src/cancionero/index.html" target="_blank" class="btn btn-ghost btn-sm">🌐 Ver web</a>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ── FORMULARIO ─────────────────────────── -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-header-icon">➕</span>
+          Agregar nueva canción
+        </div>
+        <div class="panel-body">
+          <form id="song-form" onsubmit="handleSubmit(event)">
+
+            <!-- Categoría -->
+            <div class="field span-2" style="margin-bottom:1.25rem">
+              <label>Categoría <span class="req">*</span></label>
+              <div class="cat-selector">
+                <div>
+                  <input type="radio" class="cat-radio" name="categoria" id="cat-infantil" value="infantil" checked>
+                  <label class="cat-label" for="cat-infantil">
+                    <span class="cat-emoji">👦</span>
+                    Infantil
+                  </label>
+                </div>
+                <div>
+                  <input type="radio" class="cat-radio" name="categoria" id="cat-folclore" value="folclore">
+                  <label class="cat-label" for="cat-folclore">
+                    <span class="cat-emoji">🎻</span>
+                    Folclore
+                  </label>
+                </div>
+                <div>
+                  <input type="radio" class="cat-radio" name="categoria" id="cat-rock" value="rock">
+                  <label class="cat-label" for="cat-rock">
+                    <span class="cat-emoji">🎸</span>
+                    Rock Nacional
+                  </label>
+                </div>
+                <div>
+                  <input type="radio" class="cat-radio" name="categoria" id="cat-patria" value="patria">
+                  <label class="cat-label" for="cat-patria">
+                    <span class="cat-emoji">☀️</span>
+                    Patria
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-grid">
+
+              <!-- Título -->
+              <div class="field">
+                <label for="titulo">Título <span class="req">*</span></label>
+                <input type="text" id="titulo" name="titulo" placeholder="ej. Barrilete de colores" required>
+              </div>
+
+              <!-- Artista -->
+              <div class="field">
+                <label for="artista">Artista <span class="req">*</span></label>
+                <input type="text" id="artista" name="artista" placeholder="ej. Magdalena Fleitas" required>
+              </div>
+
+              <!-- Link de Streaming (Spotify o YouTube Music) -->
+              <div class="field span-2">
+                <label for="streamingUrl">Link de Spotify o YouTube Music <span class="req">*</span></label>
+                <div class="url-input-wrapper">
+                  <input type="url" id="streamingUrl" name="streamingUrl"
+                    placeholder="https://open.spotify.com/track/... o https://music.youtube.com/watch?v=..."
+                    oninput="detectPlatform(this.value)"
+                    required>
+                  <span class="url-badge unknown" id="platform-badge">Pegá URL</span>
+                </div>
+              </div>
+
+              <!-- PDF de la Letra -->
+              <div class="field">
+                <label for="pdfLetra">
+                  Link PDF — Letra 
+                  <span style="color:var(--muted);font-size:0.75em;text-transform:none;letter-spacing:0">(opcional)</span>
+                </label>
+                <input type="text" id="pdfLetra" name="pdfLetra"
+                  placeholder="letras/nombre_cancion_letra.pdf">
+              </div>
+
+              <!-- PDF de la Actividad -->
+              <div class="field">
+                <label for="pdfActividad">
+                  Link PDF — Fotocopia / Actividad
+                  <span style="color:var(--muted);font-size:0.75em;text-transform:none;letter-spacing:0">(opcional)</span>
+                </label>
+                <input type="text" id="pdfActividad" name="pdfActividad"
+                  placeholder="actividades/nombre_cancion_actividad.pdf">
+              </div>
+
+              <!-- MP3 (solo visble en Patrias) -->
+              <div class="field span-2" id="mp3-field" style="display:none">
+                <label for="audioMp3">
+                  Archivo MP3 — Descarga directa
+                  <span style="color:var(--muted);font-size:0.75em;text-transform:none;letter-spacing:0">(opcional, solo patrias)</span>
+                </label>
+                <input type="text" id="audioMp3" name="audioMp3"
+                  placeholder="mp3/himno_nacional_argentino.mp3">
+              </div>
+
+              <!-- Reseña -->
+              <div class="field span-2">
+                <label for="resena">Reseña pedagógica <span class="req">*</span></label>
+                <textarea id="resena" name="resena" rows="3"
+                  placeholder="Breve descripción didáctica de la canción y su propuesta de trabajo en el aula..." required></textarea>
+              </div>
+
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" id="submit-btn">
+                ➕ Agregar canción
+              </button>
+              <button type="button" class="btn btn-ghost" onclick="resetForm()">
+                Limpiar formulario
+              </button>
+              <span id="form-status" style="font-size:0.85rem;color:var(--muted);margin-left:auto"></span>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+      <!-- ── TABLA DE CANCIONES ─────────────────── -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-header-icon">🎵</span>
+          <span>Canciones actuales</span>
+          <span id="song-count" style="margin-left:auto;font-size:0.8rem;font-weight:600;color:var(--muted)"></span>
+        </div>
+        <div class="songs-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Artista</th>
+                <th>Categoría</th>
+                <th>Plataforma</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="songs-tbody">
+              <tr>
+                <td colspan="6" class="empty-state">
+                  <span class="loading"></span> Cargando canciones...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- Toast container -->
+<div class="toast-container" id="toast-container"></div>
+
+<script>
+/* ══════════════════════════════════════════════════
+   STATE & CONFIG
+══════════════════════════════════════════════════ */
+const API = 'http://localhost:3131';
+let allSongs = [];
+let activeFilter = 'all';
+
+/* ══════════════════════════════════════════════════
+   TOASTS
+══════════════════════════════════════════════════ */
+function showToast(msg, type = 'success') {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.innerHTML = `
+    <span class="toast-icon">${type === 'success' ? '✅' : '❌'}</span>
+    <span>${msg}</span>
+  `;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.style.transition = 'all 0.3s';
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(100%)';
+    setTimeout(() => toast.remove(), 300);
+  }, 4000);
+}
+
+/* ══════════════════════════════════════════════════
+   PLATFORM DETECTION
+══════════════════════════════════════════════════ */
+function detectPlatform(url) {
+  const badge = document.getElementById('platform-badge');
+  if (url.includes('spotify.com')) {
+    badge.textContent = '🎵 Spotify';
+    badge.className = 'url-badge spotify';
+  } else if (url.includes('youtube.com') || url.includes('youtu.be')) {
+    badge.textContent = '▶ YouTube';
+    badge.className = 'url-badge youtube';
+  } else if (url) {
+    badge.textContent = '? Desconocido';
+    badge.className = 'url-badge unknown';
+  } else {
+    badge.textContent = 'Pegá URL';
+    badge.className = 'url-badge unknown';
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   SHOW/HIDE MP3 FIELD
+══════════════════════════════════════════════════ */
+document.querySelectorAll('.cat-radio').forEach(radio => {
+  radio.addEventListener('change', () => {
+    const mp3Field = document.getElementById('mp3-field');
+    mp3Field.style.display = radio.value === 'patria' && radio.checked ? 'flex' : 'none';
+  });
+});
+
+/* ══════════════════════════════════════════════════
+   LOAD & RENDER SONGS
+══════════════════════════════════════════════════ */
+async function loadSongs() {
+  try {
+    const res = await fetch(`${API}/api/canciones`);
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error);
+    allSongs = data.canciones;
+    updateStats();
+    renderTable();
+  } catch (e) {
+    document.getElementById('songs-tbody').innerHTML = `
+      <tr><td colspan="6" class="empty-state">
+        <span class="empty-icon">⚠️</span>
+        Error al cargar canciones: ${e.message}
+      </td></tr>`;
+  }
+}
+
+function updateStats() {
+  document.getElementById('stat-total').textContent = allSongs.length;
+  document.getElementById('stat-infantil').textContent = allSongs.filter(s => s.categoria === 'infantil').length;
+  document.getElementById('stat-folclore').textContent = allSongs.filter(s => s.categoria === 'folclore').length;
+  document.getElementById('stat-rock').textContent = allSongs.filter(s => s.categoria === 'rock').length;
+}
+
+function setFilter(filter) {
+  activeFilter = filter;
+  document.querySelectorAll('.cat-pill').forEach(p => {
+    p.classList.toggle('active', p.dataset.filter === filter);
+  });
+  renderTable();
+}
+
+function renderTable(highlightId = null) {
+  const tbody = document.getElementById('songs-tbody');
+  const filtered = activeFilter === 'all' ? allSongs : allSongs.filter(s => s.categoria === activeFilter);
+
+  document.getElementById('song-count').textContent =
+    filtered.length === allSongs.length
+      ? `${allSongs.length} canciones`
+      : `${filtered.length} de ${allSongs.length}`;
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" class="empty-state">
+      <span class="empty-icon">🎵</span>
+      No hay canciones en esta categoría todavía.
+    </td></tr>`;
+    return;
+  }
+
+  const catLabels = {
+    infantil: '👦 Infantil',
+    folclore: '🎻 Folclore',
+    rock:     '🎸 Rock',
+    patria:   '☀️ Patria',
+  };
+
+  tbody.innerHTML = filtered.map(s => {
+    const platform = s.spotifyId ? 'spotify' : (s.youtubeId ? 'youtube' : '—');
+    const platformLabel = s.spotifyId ? '🎵 Spotify' : (s.youtubeId ? '▶ YouTube' : '—');
+    const isNew = s.id === highlightId;
+    return `<tr class="${isNew ? 'row-new' : ''}">
+      <td><span class="song-id">${s.id}</span></td>
+      <td style="font-weight:700">${s.titulo}</td>
+      <td style="color:var(--muted)">${s.artista}</td>
+      <td><span class="cat-badge ${s.categoria}">${catLabels[s.categoria] || s.categoria}</span></td>
+      <td>${platform !== '—' ? `<span class="platform-badge ${platform}">${platformLabel}</span>` : '<span style="color:var(--muted);font-size:0.8rem">—</span>'}</td>
+      <td>
+        <button class="btn btn-danger btn-sm" onclick="deleteSong('${s.id}', '${s.titulo.replace(/'/g, "\\'")}')">
+          🗑 Eliminar
+        </button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+/* ══════════════════════════════════════════════════
+   FORM SUBMIT
+══════════════════════════════════════════════════ */
+async function handleSubmit(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submit-btn');
+  const status = document.getElementById('form-status');
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading"></span> Guardando...';
+  status.textContent = '';
+
+  const form = e.target;
+  const data = {
+    titulo:       form.titulo.value.trim(),
+    artista:      form.artista.value.trim(),
+    categoria:    form.querySelector('input[name="categoria"]:checked').value,
+    streamingUrl: form.streamingUrl.value.trim(),
+    pdfLetra:     form.pdfLetra.value.trim(),
+    pdfActividad: form.pdfActividad.value.trim(),
+    audioMp3:     form.audioMp3 ? form.audioMp3.value.trim() : '',
+    resena:       form.resena.value.trim(),
+  };
+
+  try {
+    const res = await fetch(`${API}/api/canciones`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    const result = await res.json();
+
+    if (result.success) {
+      showToast(`✅ "${data.titulo}" agregada con éxito (ID: ${result.id})`);
+      resetForm();
+      await loadSongs();
+      renderTable(result.id);
+      // Scroll to table
+      document.querySelector('.songs-table-wrap').scrollIntoView({ behavior: 'smooth' });
+    } else {
+      throw new Error(result.error || 'Error desconocido');
+    }
+  } catch (err) {
+    showToast(`Error: ${err.message}`, 'error');
+    status.textContent = 'Error al guardar. Revisá la consola.';
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '➕ Agregar canción';
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   DELETE
+══════════════════════════════════════════════════ */
+async function deleteSong(id, titulo) {
+  if (!confirm(`¿Seguro que querés eliminar "${titulo}"?\nEsta acción modifica el código fuente.`)) return;
+  try {
+    const res = await fetch(`${API}/api/canciones/${id}`, { method: 'DELETE' });
+    const data = await res.json();
+    if (data.success) {
+      showToast(`"${titulo}" eliminada.`);
+      loadSongs();
+    } else {
+      throw new Error(data.error);
+    }
+  } catch (e) {
+    showToast(`Error al eliminar: ${e.message}`, 'error');
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   RESET FORM
+══════════════════════════════════════════════════ */
+function resetForm() {
+  document.getElementById('song-form').reset();
+  document.getElementById('platform-badge').textContent = 'Pegá URL';
+  document.getElementById('platform-badge').className = 'url-badge unknown';
+  document.getElementById('mp3-field').style.display = 'none';
+  document.getElementById('form-status').textContent = '';
+}
+
+/* ══════════════════════════════════════════════════
+   HEALTH CHECK & INIT
+══════════════════════════════════════════════════ */
+async function checkHealth() {
+  const el = document.getElementById('server-status');
+  const txt = document.getElementById('server-status-text');
+  try {
+    const res = await fetch(`${API}/api/health`, { signal: AbortSignal.timeout(2000) });
+    const data = await res.json();
+    if (data.ok) {
+      el.className = 'server-status online';
+      txt.textContent = 'Servidor activo';
+    }
+  } catch {
+    el.className = 'server-status offline';
+    txt.textContent = 'Sin conexión al servidor';
+  }
+}
+
+checkHealth();
+setInterval(checkHealth, 10000);
+loadSongs();
+</script>
+</body>
+</html>
